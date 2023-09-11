@@ -1,0 +1,8 @@
+<p>Denne sider loader faktisk</p>
+
+<ul>
+    <li *ngFor="let client of client$ | async">
+      <a routerLink={{client.id}}>{{ client.first_name }} {{client.last_name}}</a>
+    </li>
+  </ul>
+
