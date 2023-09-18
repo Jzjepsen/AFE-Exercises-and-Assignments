@@ -1,8 +1,39 @@
-<div *ngFor="let card of creditCardData; let i = index">    
-    <td>{{ card.card_number }}</td>  
-    <td>{{ card.csc_code }}</td>  
-    <td>{{ card.cardholder_name }}</td>  
-    <td>{{ card.expiration_date_month }}/{{ card.expiration_date_year }}</td>  
-    <td>{{ card.issuer }}</td>  
-    <a [routerLink]="['/card-details', i]">View Details</a>    
-</div>    
+<table style="width: 33%; border-collapse: collapse; box-shadow: 0px 0px 10px rgba(0,0,0,0.1);">
+    <thead style="background-color: #89CFF0;">
+        <tr>
+            <th style="padding: 10px; border: 1px solid #ddd;">Field</th>
+            <th style="padding: 10px; border: 1px solid #ddd;">Value</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td style="padding: 10px; border: 1px solid #ddd;">Card Number</td>
+            <td style="padding: 10px; border: 1px solid #ddd;">{{ card.card_number }}</td>
+        </tr>
+        <tr>
+            <td style="padding: 10px; border: 1px solid #ddd;">CSC Code</td>
+            <td style="padding: 10px; border: 1px solid #ddd;">{{ card.csc_code }}</td>
+        </tr>
+        <tr>
+            <td style="padding: 10px; border: 1px solid #ddd;">Cardholder Name</td>
+            <td style="padding: 10px; border: 1px solid #ddd;">{{ card.cardholder_name }}</td>
+        </tr>
+        <tr>
+            <td style="padding: 10px; border: 1px solid #ddd;">Expiration Date</td>
+            <td style="padding: 10px; border: 1px solid #ddd;">{{ card.expiration_date_month }}/{{
+                card.expiration_date_year }}</td>
+        </tr>
+        <tr>
+            <td style="padding: 10px; border: 1px solid #ddd;">Issuer</td>
+            <td style="padding: 10px; border: 1px solid #ddd;">{{ card.issuer }}</td>
+        </tr>
+    </tbody>
+</table>
+<div style="width: 33%; margin-top: 10px;">
+    <input type="text" style="width: 100%; padding: 10px; box-sizing: border-box;"
+        placeholder="Type 'delete' to confirm" />
+    <button
+        style="width: 100%; padding: 10px; color: white; background-color: red; border: none; margin-top: 10px; cursor: pointer;"
+        (click)="deleteCard()">Remove</button>
+
+</div>
