@@ -1,0 +1,8 @@
+<div *ngFor="let card of creditCardData; let i = index">    
+    <td>{{ card.card_number }}</td>  
+    <td>{{ card.csc_code }}</td>  
+    <td>{{ card.cardholder_name }}</td>  
+    <td>{{ card.expiration_date_month }}/{{ card.expiration_date_year }}</td>  
+    <td>{{ card.issuer }}</td>  
+    <a [routerLink]="['/card-details', i]">View Details</a>    
+</div>    

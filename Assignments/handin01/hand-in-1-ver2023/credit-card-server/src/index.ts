@@ -4,7 +4,7 @@ import { router as credit_cards } from './credit-card.router'
 import { router as transactions } from './transaction.router'
 
 const app = express()
-const port = 3000
+const port = 3001
 
 app.use(cors())
 app.use('/cards', credit_cards)
