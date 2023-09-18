@@ -1,34 +1,12 @@
-<nav
->  
-  <div style="margin-top: 1%;">
-<a routerLink="/home" style="padding: 10px 20px; margin-right: 10px; background-color: #ff66b2; color: #000000; text-decoration: none; border-radius: 5px;">Home</a>  
-<a routerLink="/add-credit-card" style="padding: 10px 20px; margin-right: 10px; background-color: #ff66b2; color: #000000; text-decoration: none; border-radius: 5px;">Add Credit Card</a>  
-<a routerLink="/transactions" style="padding: 10px 20px; background-color: #ff66b2; color: #000000; text-decoration: none; border-radius: 5px;">Transactions</a>  
-</div>
-  
-<!-- src/app/app.component.html -->
-<!-- src/app/app.component.html -->
-
-<div>
-  <h1>Credit Card Data</h1>
-  <table class="credit-card-table">
-    <thead>
-      <tr>
-        <th>Card Number</th>
-        <th>Cardholder Name</th>
-        <th>Issuer</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let card of creditCardData">
-        <td>{{ card.card_number }}</td>
-        <td>{{ card.cardholder_name }}</td>
-        <td>{{ card.issuer }}</td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-
-
-</nav>  
-<router-outlet></router-outlet>  
+<nav>
+  <div style="margin-top: 1%; margin-bottom: 2%;">
+    <a routerLink="/home"
+      style="padding: 10px 20px; margin-right: 10px; background-color: #ff66b2; color: #000000; text-decoration: none; border-radius: 5px;">Home</a>
+    <a routerLink="/add-credit-card"
+      style="padding: 10px 20px; margin-right: 10px; background-color: #ff66b2; color: #000000; text-decoration: none; border-radius: 5px;">Add
+      Credit Card</a>
+    <a routerLink="/transactions"
+      style="padding: 10px 20px; background-color: #ff66b2; color: #000000; text-decoration: none; border-radius: 5px;">Transactions</a>
+  </div>
+</nav>
+<router-outlet></router-outlet>
