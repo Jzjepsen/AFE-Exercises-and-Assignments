@@ -1,1 +1,66 @@
-<p>add-credit-card works!</p>
+<p>add-credit-card form works!</p>
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <!--card_number field-->
+    <div class="form-group">
+        <label for="cardNumber">Card Number</label>
+        <input
+          type="text" id = "cardNumber" name="cardNumber" formControlName="card_number" required min="0" step="1"
+          >
+    <div *ngIf="form.get('card_number')?.hasError('required')">
+        Card number is required.
+    </div>
+    <div *ngIf="form.get('card_number')?.hasError('pattern')">
+        Card number must contain only numbers.
+    </div>
+    <div *ngIf="form.get('card_number')?.hasError('cardNumberLength')">
+        Card number must be between 7 and 16 digits.
+    </div>
+    <!--csc_code field-->
+    <div class="form-group">
+        <label for="cscCode">CSC Code</label>
+        <input
+          type="number" id="cscCode" name="cscCode" formControlName="csc_code" required min="0" step="1"
+        >
+    <div *ngIf="form.get('csc_code')?.hasError('required')">
+        CSC code is required. 
+    </div>
+    <div *ngIf="form.get('csc_code')?.hasError('pattern')">
+        CSC code must only contain numbers.
+    </div>
+    <div *ngIf="form.get('csc_code')?.hasError('minlength') || form.get('csc_code')?.hasError('maxlength')">
+        CSC code must be 3 digits. 
+    </div>
+    <!--cardholder name field-->
+    <div class="form-group">
+        <label for="cardholder_name">Cardholder Name</label>
+        <input
+         type="string" id="cardholder_name" name="cardholderName" formControlName="cardholder_name" required min="0" step="1"
+         >
+        <div *ngIf="form.get('csc_code')?.hasError('required')">
+        CSC code is required. 
+        </div>    
+    </div>
+    <!--Expiration date month field-->
+    <div class="form-group">
+        <label for="expirationDateMonth">Expiration Date (Month)</label>
+        <input type="number" id="expirationDateMonth" name="expirationDateMonth" formControlName="expiration_date_month" required min="1" max="12"
+        >
+        <div *ngIf="form.get('expiration_date_month')?.hasError('required')">
+            Expiration month is required.
+        </div>
+        <div *ngIf="form.get('expiration_date_month')?.hasError('pattern')">
+            Expiration month must contain only numbers.
+        </div>
+        <div *ngIf="form.get('expiration_date_month')?.hasError('min') || form.get('expiration_date_month')?.hasError('max')">
+            Expiration month must be in the range 1-12.
+        </div>
+    </div>
+    <!--Expiration date year field-->
+    <div class="form-group">
+        <label for="expirationDateYear">Expiration Date (Month)</label>
+        <input type="number" id="expirationDateYear" name="expirationDateYear" formControlName="expiration_date_year" required 
+        >
+        <div *ngIf="form.get('expiration_date_year')?.hasError('required')">
+            Expiration year is required.
+        </div>
+  

@@ -7,6 +7,7 @@ import { HomeComponent } from './home/home.component';
 import { AddCreditCardComponent } from './add-credit-card/add-credit-card.component';
 import { TransactionsComponent } from './transactions/transactions.component';
 import { CreditCardDetailsComponent } from './credit-card-details/credit-card-details.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { CreditCardDetailsComponent } from './credit-card-details/credit-card-de
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    ReactiveFormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
