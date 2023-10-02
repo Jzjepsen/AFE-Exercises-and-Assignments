@@ -10,6 +10,7 @@ import { switchMap } from 'rxjs/operators';
 })
 export class CreditCardDetailsComponent implements OnInit {
   card: any;
+  transactions: any[] = [];
 
   constructor(private route: ActivatedRoute, private http: HttpClient) { }
 
@@ -27,8 +28,17 @@ export class CreditCardDetailsComponent implements OnInit {
       })
     ).subscribe(card => {
       this.card = card;
+      this.fetchTransactions();
     }, error => {
       console.error('Error fetching card details:', error);
+    });
+  }
+
+  fetchTransactions() {
+    this.http.get<any[]>('http://localhost:3001/transactions').subscribe(transactions => {
+      this.transactions = transactions.filter(transaction => transaction.credit_card.card_number === this.card.card_number);
+    }, error => {
+      console.error('Error fetching transactions:', error);
     });
   }
 
