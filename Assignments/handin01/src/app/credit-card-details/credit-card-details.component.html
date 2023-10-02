@@ -37,3 +37,22 @@
         (click)="deleteCard()">Remove</button>
 
 </div>
+
+<table style="width: 100%; border-collapse: collapse; box-shadow: 0px 0px 10px rgba(0,0,0,0.1); margin-top: 20px;">
+    <thead style="background-color: #89CFF0;">
+        <tr>
+            <th style="padding: 10px; border: 1px solid #ddd;">Transaction ID</th>
+            <th style="padding: 10px; border: 1px solid #ddd;">Amount</th>
+            <th style="padding: 10px; border: 1px solid #ddd;">Date</th>
+            <th style="padding: 10px; border: 1px solid #ddd;">Currency</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let transaction of transactions">
+            <td style="padding: 10px; border: 1px solid #ddd;">{{ transaction.uid }}</td>
+            <td style="padding: 10px; border: 1px solid #ddd;">{{ transaction.amount }}</td>
+            <td style="padding: 10px; border: 1px solid #ddd;">{{ transaction.date | date }}</td>
+            <td style="padding: 10px; border: 1px solid #ddd;">{{ transaction.currency }}</td>
+        </tr>
+    </tbody>
+</table>
