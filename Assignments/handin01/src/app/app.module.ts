@@ -9,6 +9,7 @@ import { CreditCardDetailsComponent } from './credit-card-details/credit-card-de
 import { ReactiveFormsModule } from '@angular/forms';
 import { TransactionAddComponent } from './transactions/transaction-add.component';
 import { TransactionsOverviewComponent } from './transactions/transactions-overview.component';
+import { NavigationBarComponent } from './navigation-bar/navigation-bar.component'
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { TransactionsOverviewComponent } from './transactions/transactions-overv
     AddCreditCardComponent,
     TransactionsOverviewComponent,
     CreditCardDetailsComponent,
-    TransactionAddComponent
+    TransactionAddComponent,
+    NavigationBarComponent
   ],
   imports: [
     BrowserModule,
