@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
-import { CreditCardService } from '../credit-card.service';
+import { CreditCardService } from '../services/credit-card.service';
 
 
 @Component({

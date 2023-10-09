@@ -8,10 +8,12 @@ import { AddCreditCardComponent } from './add-credit-card/add-credit-card.compon
 import { CreditCardDetailsComponent } from './credit-card-details/credit-card-details.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TransactionAddComponent } from './transactions/transaction-add.component';
-import { TransactionsOverviewComponent } from './transactions/transactions-overview.component';
+import { Transaction, TransactionsOverviewComponent } from './transactions/transactions-overview.component';
 import { NavigationBarComponent } from './navigation-bar/navigation-bar.component'
-import { CreditCardService } from './credit-card.service';
+import { CreditCardService } from './services/credit-card.service';
 import { FormsModule } from '@angular/forms';
+import { TransactionListComponent } from './transactions/transaction-list.component';
+import { TransactionsService } from './services/transactions.service';
 
 @NgModule({
   declarations: [
@@ -21,7 +23,8 @@ import { FormsModule } from '@angular/forms';
     TransactionsOverviewComponent,
     CreditCardDetailsComponent,
     TransactionAddComponent,
-    NavigationBarComponent
+    NavigationBarComponent,
+    TransactionListComponent
   ],
   imports: [
     BrowserModule,
@@ -31,7 +34,8 @@ import { FormsModule } from '@angular/forms';
     FormsModule
   ],
   providers: [
-    CreditCardService
+    CreditCardService,
+    TransactionsService
   ],
   bootstrap: [AppComponent]
 })
