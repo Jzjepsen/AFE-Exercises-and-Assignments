@@ -1,15 +1,10 @@
-<div class="container">
-
-  <!-- Left side: Transaction List -->
-  <div class="transaction-list">
-  
-  table {
+table {
   border-collapse: collapse;
-  width: 100%;  /* Making table take full width of its container */
+  width: 100%;
   margin-left: auto;
   margin-right: auto;
 }
-</div>
+
 td {
   border: 1px solid #a47070;
   padding: 20px;
@@ -40,20 +35,18 @@ tr:hover {
   background-color: #a47070;
 }
 
-/* New styles for the layout */
-
 .container {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  width: 100%;  /* Ensuring the container spans the full width */
+  width: 100%;
 }
 
 .transaction-list {
-  flex: 0.7;  /* Occupy about 70% of the parent's width */
-  margin-right: 2rem;  /* Space between transaction list and add transaction form */
+  flex: 0.7;
+  margin-right: 2rem;
 }
 
 .add-transaction-form {
-  flex: 0.3;  /* Occupy about 30% of the parent's width */
+  flex: 0.3;
 }
