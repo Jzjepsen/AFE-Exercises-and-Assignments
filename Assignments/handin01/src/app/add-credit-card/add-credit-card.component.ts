@@ -7,9 +7,9 @@ import { FormBuilder, FormControl, FormGroup, NgForm, Validators } from '@angula
   styleUrls: ['./add-credit-card.component.css']
 })
 export class AddCreditCardComponent {
-  form : FormGroup;
+  form: FormGroup;
 
-  constructor(private fb: FormBuilder){
+  constructor(private fb: FormBuilder) {
     this.form = this.fb.group({
       card_number: [
         '',
@@ -38,7 +38,7 @@ export class AddCreditCardComponent {
         ]
       ],
       expiration_date_year: [
-        '', 
+        '',
         [
           Validators.required
         ]
@@ -46,11 +46,11 @@ export class AddCreditCardComponent {
     })
   }
   // Custom validator function for card_number length
-  cardNumberLengthValidator(control : FormControl){
+  cardNumberLengthValidator(control: FormControl) {
     const value = control.value;
 
-    if (value && (value.length < 7 || value.length > 16)){
-      return {cardNumberLength: true} // validation failed
+    if (value && (value.length < 7 || value.length > 16)) {
+      return { cardNumberLength: true } // validation failed
     }
     return null;
   }
@@ -59,6 +59,7 @@ export class AddCreditCardComponent {
     if (this.form.valid) {
       console.log('Form submitted with data:', this.form.value);
       // Perform actions like sending data to a server or processing it here
+      // Call api 
       this.form.reset();
     } else {
       console.log('Form is invalid. Please check the inputs.');

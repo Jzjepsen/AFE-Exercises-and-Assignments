@@ -9,16 +9,3 @@ import { HttpClient } from '@angular/common/http';
 export class AppComponent {
   title = 'handin01';
 }
-/*
-import { Component } from '@angular/core';  
-  
-@Component({  
-  selector: 'app-root',  
-  templateUrl: './app.component.html',  
-  styleUrls: ['./app.component.css']  
-})  
-export class AppComponent {  
-  title = 'handin01';  
-}  
-
-*/
