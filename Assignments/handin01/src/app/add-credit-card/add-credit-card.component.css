@@ -39,3 +39,6 @@ table {
 .custom-button:hover {
   background-color: #a47070; /* Adjust the background color on hover */
 }
+.submit-button-container {
+  margin-top: 20px; /* Adjust this value based on your design needs */
+}

@@ -1,28 +1,31 @@
-/* Your existing styles */
+<div class="container">
 
-table {
-    border-collapse: collapse;
-    width: 100%;  /* Making table take full width of its container */
-    margin-left: auto;
-    margin-right: auto;
-}
+  <!-- Left side: Transaction List -->
+  <div class="transaction-list">
   
+  table {
+  border-collapse: collapse;
+  width: 100%;  /* Making table take full width of its container */
+  margin-left: auto;
+  margin-right: auto;
+}
+</div>
 td {
-    border: 1px solid #a47070; 
-    padding: 20px;
-    text-align: left;
+  border: 1px solid #a47070;
+  padding: 20px;
+  text-align: left;
 }
-  
+
 tr:hover {
-    background-color: #cdbfcf;
+  background-color: #cdbfcf;
 }
-  
+
 .error-message {
-    font-size: 0.8em;
-    color: rgba(255, 0, 0, 0.7);
-    margin-top: 4px;
+  font-size: 0.8em;
+  color: rgba(255, 0, 0, 0.7);
+  margin-top: 4px;
 }
-  
+
 .custom-button {
   font-size: 1em;
   padding: 10px 20px;
@@ -43,13 +46,14 @@ tr:hover {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
+  width: 100%;  /* Ensuring the container spans the full width */
 }
 
 .transaction-list {
-  flex: 1;
-  margin-right: 2rem;
+  flex: 0.7;  /* Occupy about 70% of the parent's width */
+  margin-right: 2rem;  /* Space between transaction list and add transaction form */
 }
 
 .add-transaction-form {
-  flex: 1;
+  flex: 0.3;  /* Occupy about 30% of the parent's width */
 }
