@@ -1,8 +1,11 @@
-<p>transactions works!</p>
 <div class="container">
 
   <!-- Left side: Transaction List -->
   <div class="transaction-list">
+    <div>
+      <th>Filter by credit card number: </th> <input [(ngModel)]="filter" (ngModelChange)="applyFilter()" type="number"
+        placeholder="Filter by card number">
+    </div>
     <h2>Transaction List</h2>
     <table class="table">
       <thead>
@@ -15,7 +18,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let transaction of transactions">
+        <tr *ngFor="let transaction of filteredTransactions"> <!-- use filteredTransactions here -->
           <td>{{ transaction.card_number }}</td>
           <td>{{ transaction.amount }}</td>
           <td>{{ transaction.currency }}</td>
@@ -28,6 +31,3 @@
   <div class="add-transaction-form">
     <app-transaction-add></app-transaction-add>
   </div>
-    
-
-    

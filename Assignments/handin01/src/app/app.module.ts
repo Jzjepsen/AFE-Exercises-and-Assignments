@@ -10,6 +10,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { TransactionAddComponent } from './transactions/transaction-add.component';
 import { TransactionsOverviewComponent } from './transactions/transactions-overview.component';
 import { NavigationBarComponent } from './navigation-bar/navigation-bar.component'
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { NavigationBarComponent } from './navigation-bar/navigation-bar.componen
     AppRoutingModule,
     HttpClientModule,
     ReactiveFormsModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
