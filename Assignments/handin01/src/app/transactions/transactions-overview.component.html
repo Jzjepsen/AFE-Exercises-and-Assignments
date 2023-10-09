@@ -1,0 +1,27 @@
+<p>transactions works!</p>
+<div>
+    <h2>Transaction List</h2>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Credit Card</th>
+          <th>Amount</th>
+          <th>Currency</th>
+          <th>Comment</th>
+          <th>Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let transaction of transactions">
+          <td>{{ transaction.card_number }}</td>
+          <td>{{ transaction.amount }}</td>
+          <td>{{ transaction.currency }}</td>
+          <td>{{ transaction.comment }}</td>
+          <td>{{ transaction.date | date: 'short' }}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <app-transaction-add (addTransaction)="handleNewTransaction($event)"></app-transaction-add>
+
+    

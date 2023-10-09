@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
+
 
 @Component({
   selector: 'app-add-credit-card',
@@ -9,7 +11,7 @@ import { FormBuilder, FormControl, FormGroup, NgForm, Validators } from '@angula
 export class AddCreditCardComponent {
   form: FormGroup;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private http: HttpClient) {
     this.form = this.fb.group({
       card_number: [
         '',
@@ -28,6 +30,12 @@ export class AddCreditCardComponent {
           Validators.maxLength(3)
         ]
       ],
+      cardholder_name: [
+        '',
+        [
+          Validators.required
+        ]
+      ],
       expiration_date_month: [
         '',
         [
@@ -43,6 +51,12 @@ export class AddCreditCardComponent {
           Validators.required
         ]
       ],
+      issuer: [
+        '',
+        [
+          Validators.required,
+        ],
+      ]
     })
   }
   // Custom validator function for card_number length
@@ -57,10 +71,26 @@ export class AddCreditCardComponent {
 
   onSubmit() {
     if (this.form.valid) {
+      // Log the form data
       console.log('Form submitted with data:', this.form.value);
-      // Perform actions like sending data to a server or processing it here
-      // Call api 
-      this.form.reset();
+
+      // Make the POST request to your API
+      const apiEndpoint = 'http://localhost:3001/cards';
+
+      // Use HttpClient to send the POST request
+      this.http.post(apiEndpoint, this.form.value).subscribe(
+        (response) => {
+          // Handle a successful response from the server
+          console.log('API response:', response);
+
+          // Reset the form after a successful submission
+          this.form.reset();
+        },
+        (error) => {
+          // Handle any errors that occur during the request
+          console.error('API error:', error);
+        }
+      );
     } else {
       console.log('Form is invalid. Please check the inputs.');
     }
