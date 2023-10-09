@@ -10,6 +10,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { TransactionAddComponent } from './transactions/transaction-add.component';
 import { TransactionsOverviewComponent } from './transactions/transactions-overview.component';
 import { NavigationBarComponent } from './navigation-bar/navigation-bar.component'
+import { CreditCardService } from './credit-card.service';
 import { FormsModule } from '@angular/forms';
 
 @NgModule({
@@ -29,7 +30,9 @@ import { FormsModule } from '@angular/forms';
     ReactiveFormsModule,
     FormsModule
   ],
-  providers: [],
+  providers: [
+    CreditCardService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

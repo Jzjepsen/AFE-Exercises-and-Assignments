@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
+import { CreditCardService } from '../credit-card.service';
 
 
 @Component({
@@ -11,7 +11,7 @@ import { HttpClient } from '@angular/common/http';
 export class AddCreditCardComponent {
   form: FormGroup;
 
-  constructor(private fb: FormBuilder, private http: HttpClient) {
+  constructor(private fb: FormBuilder, private cardService: CreditCardService) {
     this.form = this.fb.group({
       card_number: [
         '',
@@ -74,12 +74,9 @@ export class AddCreditCardComponent {
       // Log the form data
       console.log('Form submitted with data:', this.form.value);
 
-      // Make the POST request to your API
-      const apiEndpoint = 'http://localhost:3001/cards';
-
       // Use HttpClient to send the POST request
-      this.http.post(apiEndpoint, this.form.value).subscribe(
-        (response) => {
+      this.cardService.addCard(this.form.value).subscribe( 
+      (response) => {
           // Handle a successful response from the server
           console.log('API response:', response);
 
