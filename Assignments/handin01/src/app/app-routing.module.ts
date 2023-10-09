@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { AddCreditCardComponent } from './add-credit-card/add-credit-card.component';
-import { TransactionsComponent } from './transactions/transactions.component';
+import { TransactionsComponent } from './transactions/transactions-overview.component';
 import { CreditCardDetailsComponent } from './credit-card-details/credit-card-details.component';
 
 

@@ -54,7 +54,7 @@
       </div>
     </td>
   </tr>
-  
+
   <!-- Expiration date year field -->
   <tr>
     <td>
@@ -68,4 +68,20 @@
       </div>
     </td>
   </tr>
-  
+ <!-- Issuer field -->
+ <tr>
+  <td>
+    <label for="issuer">Issuer</label>
+  </td>
+  <td>
+    <input type="text" id="issuer" name="issuer" formControlName="issuer">
+    <div *ngIf="form.get('issuer')?.invalid" class="error-message">
+      <div *ngIf="form.get('issuer')?.hasError('required')">Issuer is required.</div>
+    </div>
+  </td>
+</tr>
+</table>
+
+<!-- Add a button that calls the onSubmit method when clicked with margin -->
+<button type="submit" class="custom-button" style="margin-top: 20px;">Submit</button>
+

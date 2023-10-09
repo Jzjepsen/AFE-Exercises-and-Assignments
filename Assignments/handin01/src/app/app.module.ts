@@ -5,17 +5,19 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { AddCreditCardComponent } from './add-credit-card/add-credit-card.component';
-import { TransactionsComponent } from './transactions/transactions.component';
 import { CreditCardDetailsComponent } from './credit-card-details/credit-card-details.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { TransactionAddComponent } from './transactions/transaction-add.component';
+import { TransactionsOverviewComponent} from './transactions/transactions-overview.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     AddCreditCardComponent,
-    TransactionsComponent,
-    CreditCardDetailsComponent
+    TransactionsOverviewComponent,
+    CreditCardDetailsComponent,
+    TransactionAddComponent
   ],
   imports: [
     BrowserModule,
