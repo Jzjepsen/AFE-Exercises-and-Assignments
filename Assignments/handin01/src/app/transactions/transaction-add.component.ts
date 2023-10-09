@@ -19,7 +19,8 @@ export class TransactionAddComponent implements OnInit {
       amount: [0, [Validators.required, Validators.min(0)]],
       currency: ['', Validators.required],
       comment: [''],
-      creditCard: ['', Validators.required]
+      creditCard: ['', Validators.required],
+      date: [new Date().toISOString().split('T')[0], Validators.required]
     });
   }
 
@@ -31,14 +32,13 @@ export class TransactionAddComponent implements OnInit {
       const uid = this.generateUID();
   
       const newTransaction = new Transaction(
-        this.transactionForm.value.creditCard, // card_number
-        uid, // uid
-        this.transactionForm.value.amount, // amount
-        this.transactionForm.value.comment, // comment
-        Date.now(), // date (current time in milliseconds since 1970)
-        this.transactionForm.value.currency // currency
-      );
-  
+        this.transactionForm.value.creditCard,
+        uid,
+        this.transactionForm.value.amount,
+        this.transactionForm.value.comment,
+        new Date(this.transactionForm.value.date).getTime(), // Convert the selected date to milliseconds
+        this.transactionForm.value.currency
+    );
       this.addTransaction.emit(newTransaction);
       this.transactionForm.reset();
     }

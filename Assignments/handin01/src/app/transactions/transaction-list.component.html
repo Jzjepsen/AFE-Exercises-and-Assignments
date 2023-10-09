@@ -1,0 +1,20 @@
+<table class="table">
+    <thead>
+      <tr>
+        <th>Credit Card</th>
+        <th>Amount</th>
+        <th>Currency</th>
+        <th>Comment</th>
+        <th>Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let transaction of filteredTransactions"> <!-- use filteredTransactions here -->
+        <td>{{ transaction.card_number }}</td>
+        <td>{{ transaction.amount }}</td>
+        <td>{{ transaction.currency }}</td>
+        <td>{{ transaction.comment }}</td>
+        <td>{{ transaction.date | date: 'short' }}</td>
+      </tr>
+    </tbody>
+  </table>

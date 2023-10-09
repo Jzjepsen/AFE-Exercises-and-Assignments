@@ -3,31 +3,18 @@
   <!-- Left side: Transaction List -->
   <div class="transaction-list">
     <div>
-      <th>Filter by credit card number: </th> <input [(ngModel)]="filter" (ngModelChange)="applyFilter()" type="number"
-        placeholder="Filter by card number">
+      <th>Filter by credit card number: </th>
+      <input [(ngModel)]="filter" (ngModelChange)="applyFilter()" type="number" placeholder="Filter by card number">
     </div>
     <h2>Transaction List</h2>
     <table class="table">
-      <thead>
-        <tr>
-          <th>Credit Card</th>
-          <th>Amount</th>
-          <th>Currency</th>
-          <th>Comment</th>
-          <th>Date</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let transaction of filteredTransactions"> <!-- use filteredTransactions here -->
-          <td>{{ transaction.card_number }}</td>
-          <td>{{ transaction.amount }}</td>
-          <td>{{ transaction.currency }}</td>
-          <td>{{ transaction.comment }}</td>
-          <td>{{ transaction.date | date: 'short' }}</td>
-        </tr>
-      </tbody>
+      <app-transaction-list 
+      [transactions]="transactions"
+      [filter]="filter">
+    </app-transaction-list>
     </table>
   </div>
   <div class="add-transaction-form">
-    <app-transaction-add></app-transaction-add>
+    <app-transaction-add (addTransaction)="handleNewTransaction($event)"></app-transaction-add>
   </div>
+</div>

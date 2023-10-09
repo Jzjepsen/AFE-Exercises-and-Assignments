@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
+import { TransactionsService } from '../services/transactions.service';
 
 
 export class CreditCard {
@@ -37,31 +37,13 @@ export class TransactionsOverviewComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private http: HttpClient // Inject the HttpClient module
-  ) {
-    // Initialize the form group for transactions here...
-  }
+    private transactionsService: TransactionsService
+  ) {  }
 
   ngOnInit(): void {
-    // Fetch transactions from the API  
-    this.http.get<any[]>('http://localhost:3001/transactions').subscribe(
-      (responseData) => {
-        // Map the API data to the Transaction format  
-        this.transactions = responseData.map(item => {
-          console.log('Card Number:', item.credit_card.card_number);  // Add this line    
-          return new Transaction(
-            item.credit_card.card_number.toString(),
-            item.uid,
-            parseFloat(item.amount.toFixed(2)),  // Round to 2 decimal places  
-            item.comment,
-            item.date,
-            item.currency
-          );
-        });
-        console.log('Mapped Data:', this.transactions);
-
-        // Initialize the filtered list here, after the transactions have been fetched  
-        this.filteredTransactions = this.transactions;
+    this.transactionsService.getTransactions().subscribe(
+      (transactions) => {
+        this.transactions = transactions;
       },
       (error) => {
         console.error('Error fetching transactions:', error);
@@ -69,12 +51,14 @@ export class TransactionsOverviewComponent implements OnInit {
     );
   }
 
-
   handleNewTransaction(newTransaction: Transaction): void {
     // Logic to handle the new transaction
     this.transactions.push(newTransaction);
+    // If you have some filtering logic, ensure you update the filtered list as well
+    this.filteredTransactions = [...this.transactions];
     // ... send to server or any other logic you need.
   }
+  
 
   applyFilter(): void {
     console.log('Filter Value:', this.filter);  // Add this line  
@@ -88,9 +72,4 @@ export class TransactionsOverviewComponent implements OnInit {
       this.filteredTransactions = this.transactions;
     }
   }
-
-
-
-
-
 }
