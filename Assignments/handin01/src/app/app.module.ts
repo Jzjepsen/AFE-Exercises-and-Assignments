@@ -12,8 +12,9 @@ import { Transaction, TransactionsOverviewComponent } from './transactions/trans
 import { NavigationBarComponent } from './navigation-bar/navigation-bar.component'
 import { CreditCardService } from './services/credit-card.service';
 import { FormsModule } from '@angular/forms';
-import { TransactionListComponent } from './transactions/transaction-list.component';
 import { TransactionsService } from './services/transactions.service';
+import { TransactionListComponent, ConfirmDialogComponent } from './transactions/transaction-list.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -24,14 +25,17 @@ import { TransactionsService } from './services/transactions.service';
     CreditCardDetailsComponent,
     TransactionAddComponent,
     NavigationBarComponent,
-    TransactionListComponent
+    TransactionListComponent,
+    TransactionListComponent,
+    ConfirmDialogComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    MatDialogModule
   ],
   providers: [
     CreditCardService,

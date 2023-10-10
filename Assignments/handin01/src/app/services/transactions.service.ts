@@ -25,4 +25,9 @@ export class TransactionsService {
       })
     );
   }
+
+  deleteTransaction(uid: string): Observable<any> {
+    return this.http.delete(`http://localhost:3001/transactions/${uid}`);
+  }
+
 }
