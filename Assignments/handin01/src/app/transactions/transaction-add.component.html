@@ -1,36 +1,62 @@
 <div class="add-transaction-form">
-  <h2>Add Transaction</h2>
-  <form [formGroup]="transactionForm" (ngSubmit)="onSubmit()">
-      <table>
-          <tbody>
-              <tr>
-                  <td><label for="description">Description:</label></td>
-                  <td><input type="text" id="description" formControlName="description" class="form-control custom-input" required></td>
-              </tr>
-              <tr>
-                  <td><label for="amount">Amount:</label></td>
-                  <td><input type="number" id="amount" formControlName="amount" class="form-control custom-input" required></td>
-              </tr>
-              <tr>
-                  <td><label for="currency">Currency:</label></td>
-                  <td><input type="text" id="currency" formControlName="currency" class="form-control custom-input" required></td>
-              </tr>
-              <tr>
-                  <td><label for="comment">Comment:</label></td>
-                  <td><input type="text" id="comment" formControlName="comment" class="form-control custom-input"></td>
-              </tr>
-              <tr>
-                  <td><label for="creditCard">Credit Card Number:</label></td>
-                  <td><input type="number" id="creditCard" formControlName="creditCard" class="form-control custom-input" required></td>
-              </tr>
-              <tr>
-                <td><label for="transactionDate">Transaction Date:</label></td>
-                <td><input type="date" id="transactionDate" formControlName="date" class="form-control custom-input" required></td>
-            </tr>            
-          </tbody>
-      </table>
-      <div class="submit-button-container">
-          <button type="submit" class="btn btn-primary custom-button">Add Transaction</button>
-      </div>
-  </form>
-</div>
+    <h2>Add Transaction</h2>
+    <form [formGroup]="transactionForm" (ngSubmit)="onSubmit()">
+        <table>
+            <tbody>
+                <tr>
+                    <td><label for="description">Description:</label></td>
+                    <td>
+                        <input type="text" id="description" formControlName="description" class="form-control custom-input" required>
+                        <div *ngIf="description.invalid && description.touched" class="error-message">
+                            Description is required.
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="amount">Amount:</label></td>
+                    <td>
+                        <input type="number" id="amount" formControlName="amount" class="form-control custom-input" required>
+                        <div *ngIf="amount.invalid && amount.touched" class="error-message">
+                            Amount is required and must be greater than or equal to 0.
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="currency">Currency:</label></td>
+                    <td>
+                        <input type="text" id="currency" formControlName="currency" class="form-control custom-input" required>
+                        <div *ngIf="currency.invalid && currency.touched" class="error-message">
+                            Currency is required.
+                        </div>
+                    </td>
+                </tr>
+                <!-- Comment field does not have any validator, so no error message is needed -->
+                <tr>
+                    <td><label for="comment">Comment:</label></td>
+                    <td><input type="text" id="comment" formControlName="comment" class="form-control custom-input"></td>
+                </tr>
+                <tr>
+                    <td><label for="creditCard">Credit Card Number:</label></td>
+                    <td>
+                        <input type="number" id="creditCard" formControlName="creditCard" class="form-control custom-input" required>
+                        <div *ngIf="creditCard.invalid && creditCard.touched" class="error-message">
+                            Credit Card Number is required.
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                  <td><label for="transactionDate">Transaction Date:</label></td>
+                  <td>
+                      <input type="date" id="transactionDate" formControlName="date" class="form-control custom-input" required>
+                      <div *ngIf="date.invalid && date.touched" class="error-message">
+                          Transaction Date is required.
+                      </div>
+                  </td>
+              </tr>            
+            </tbody>
+        </table>
+        <div class="submit-button-container">
+            <button type="submit" class="btn btn-primary custom-button">Add Transaction</button>
+        </div>
+    </form>
+  </div>

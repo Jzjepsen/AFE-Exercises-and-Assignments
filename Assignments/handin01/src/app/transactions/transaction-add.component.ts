@@ -23,7 +23,31 @@ export class TransactionAddComponent implements OnInit {
       date: [new Date().toISOString().split('T')[0], Validators.required]
     });
   }
-
+  
+  get description() {
+    return this.transactionForm.get('description')!;
+  }
+  
+  get amount() {
+    return this.transactionForm.get('amount')!;
+  }
+  
+  get currency() {
+    return this.transactionForm.get('currency')!;
+  }
+  
+  get comment() {
+    return this.transactionForm.get('comment')!;
+  }
+  
+  get creditCard() {
+    return this.transactionForm.get('creditCard')!;
+  }
+  
+  get date() {
+    return this.transactionForm.get('date')!;
+  }
+  
   ngOnInit(): void {}
 
   onSubmit(): void {
