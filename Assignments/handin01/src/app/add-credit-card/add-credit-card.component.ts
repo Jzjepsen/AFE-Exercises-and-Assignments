@@ -25,9 +25,7 @@ export class AddCreditCardComponent {
         '',
         [
           Validators.required,
-          Validators.pattern('^[0-9]*$'), //allow only numerical input
-          Validators.minLength(3),
-          Validators.maxLength(3)
+          Validators.pattern('^[0-9]{3}$') // ensures only 3 numeric characters
         ]
       ],
       cardholder_name: [
@@ -40,7 +38,7 @@ export class AddCreditCardComponent {
         '',
         [
           Validators.required,
-          Validators.pattern('^[1-12]*$'),
+          Validators.pattern('^[0-9]*$'),
           Validators.min(1),
           Validators.max(12)
         ]
