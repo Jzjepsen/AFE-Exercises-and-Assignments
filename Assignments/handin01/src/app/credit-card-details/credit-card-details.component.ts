@@ -2,17 +2,19 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { switchMap } from 'rxjs/operators';
+import { ExpirationDatePipe } from './expiration-date.pipe';
 
 @Component({
   selector: 'app-card-details',
   templateUrl: './credit-card-details.component.html',
-  styleUrls: ['./credit-card-details.component.css']
+  styleUrls: ['./credit-card-details.component.css'],
+  providers: [ExpirationDatePipe]
 })
 export class CreditCardDetailsComponent implements OnInit {
   card: any;
   transactions: any[] = [];
 
-  constructor(private route: ActivatedRoute, private http: HttpClient) { }
+  constructor(private route: ActivatedRoute, private http: HttpClient, private expirationDatePipe: ExpirationDatePipe) { }
 
   ngOnInit() {
     this.route.params.pipe(
@@ -28,6 +30,7 @@ export class CreditCardDetailsComponent implements OnInit {
       })
     ).subscribe(card => {
       this.card = card;
+      this.card.expiryDate = this.expirationDatePipe.transform(this.card.expiration_date_month, this.card.expiration_date_year);
       this.fetchTransactions();
     }, error => {
       console.error('Error fetching card details:', error);

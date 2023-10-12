@@ -16,6 +16,7 @@ export class HomeComponent {
   fetchData() {
     this.http.get<any[]>('http://localhost:3001/cards').subscribe(data => {
       this.creditCardData = data.map((card, index) => ({ id: index + 1, ...card }));
+      console.log("data: ", this.creditCardData)
     });
   }
 }    

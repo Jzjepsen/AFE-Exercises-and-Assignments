@@ -15,6 +15,7 @@ import { FormsModule } from '@angular/forms';
 import { TransactionsService } from './services/transactions.service';
 import { TransactionListComponent, ConfirmDialogComponent } from './transactions/transaction-list.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { ExpirationDatePipe } from './credit-card-details/expiration-date.pipe';
 
 @NgModule({
   declarations: [
@@ -23,11 +24,13 @@ import { MatDialogModule } from '@angular/material/dialog';
     AddCreditCardComponent,
     TransactionsOverviewComponent,
     CreditCardDetailsComponent,
+    ExpirationDatePipe,
     TransactionAddComponent,
     NavigationBarComponent,
     TransactionListComponent,
     TransactionListComponent,
     ConfirmDialogComponent
+
   ],
   imports: [
     BrowserModule,
