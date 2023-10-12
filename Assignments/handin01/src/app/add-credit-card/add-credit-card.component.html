@@ -1,87 +1,80 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
-    <table>
-        <!-- card_number field -->
-        <tr>
-          <td>
-            <label for="cardNumber">Card Number</label>
-          </td>
-          <td>
-            <input type="text" id="cardNumber" name="cardNumber" formControlName="card_number">
-            <div *ngIf="form.get('card_number')?.invalid" class="error-message">
-              <div *ngIf="form.get('card_number')?.hasError('required')">Card number is required.</div>
-              <div *ngIf="form.get('card_number')?.hasError('pattern')">Card number must contain only numbers.</div>
-              <div *ngIf="form.get('card_number')?.hasError('cardNumberLength')">Card number must be between 7 and 16 digits.</div>
-            </div>
-          </td>
-        </tr>
-<!-- csc_code field -->
-<tr>
-    <td>
-      <label for="cscCode">CSC Code</label>
-    </td>
-    <td>
-      <input type="number" id="cscCode" name="cscCode" formControlName="csc_code">
-      <div *ngIf="form.get('csc_code')?.invalid" class="error-message">
-        <div *ngIf="form.get('csc_code')?.hasError('required')">CSC code is required.</div>
-        <div *ngIf="form.get('csc_code')?.hasError('pattern')">CSC code must contain only numbers.</div>
-        <div *ngIf="form.get('csc_code')?.hasError('minlength') || form.get('csc_code')?.hasError('maxlength')">CSC code must be 3 digits.</div>
-      </div>
-    </td>
-  </tr>
-<!-- cardholder name field -->
-<tr>
-    <td>
-      <label for="cardholder_name">Cardholder Name</label>
-    </td>
-    <td>
-      <input type="text" id="cardholder_name" name="cardholderName" formControlName="cardholder_name">
-      <div *ngIf="form.get('cardholder_name')?.invalid" class="error-message">
-        <div *ngIf="form.get('cardholder_name')?.hasError('required')">Cardholder name is required.</div>
-      </div>
-    </td>
-  </tr>
-<!-- Expiration date month field -->
-<tr>
-    <td>
-      <label for="expirationDateMonth">Expiration Date (Month)</label>
-    </td>
-    <td>
-      <input type="number" id="expirationDateMonth" name="expirationDateMonth" formControlName="expiration_date_month">
-      <div *ngIf="form.get('expiration_date_month')?.invalid" class="error-message">
-        <div *ngIf="form.get('expiration_date_month')?.hasError('required')">Expiration month is required.</div>
-        <div *ngIf="form.get('expiration_date_month')?.hasError('pattern')">Expiration month must contain only numbers.</div>
-        <div *ngIf="form.get('expiration_date_month')?.hasError('min') || form.get('expiration_date_month')?.hasError('max')">Expiration month must be in the range 1-12.</div>
-      </div>
-    </td>
-  </tr>
+  <table>
+    <!-- card_number field -->
+    <tr>
+      <td><label for="cardNumber">Card Number</label></td>
+      <td>
+        <input type="text" id="cardNumber" name="cardNumber" formControlName="card_number">
+        <div *ngIf="form.get('card_number')?.invalid && form.get('card_number')?.touched" class="error-message">
+          <div *ngIf="form.get('card_number')?.hasError('required')">Card number is required.</div>
+          <div *ngIf="form.get('card_number')?.hasError('pattern')">Card number must contain only numbers.</div>
+          <div *ngIf="form.get('card_number')?.hasError('cardNumberLength')">Card number must be between 7 and 16 digits.</div>
+        </div>
+      </td>
+    </tr>
 
-  <!-- Expiration date year field -->
-  <tr>
-    <td>
-      <label for="expirationDateYear">Expiration Date (Year)</label>
-    </td>
-    <td>
-      <input type="number" id="expirationDateYear" name="expirationDateYear" formControlName="expiration_date_year">
-      <div *ngIf="form.get('expiration_date_year')?.invalid" class="error-message">
-        <div *ngIf="form.get('expiration_date_year')?.hasError('required')">Expiration year is required.</div>
-        <!-- You can add more validations and messages for the year field if needed -->
-      </div>
-    </td>
-  </tr>
- <!-- Issuer field -->
- <tr>
-  <td>
-    <label for="issuer">Issuer</label>
-  </td>
-  <td>
-    <input type="text" id="issuer" name="issuer" formControlName="issuer">
-    <div *ngIf="form.get('issuer')?.invalid" class="error-message">
-      <div *ngIf="form.get('issuer')?.hasError('required')">Issuer is required.</div>
-    </div>
-  </td>
-</tr>
-</table>
+    <!-- csc_code field -->
+    <tr>
+      <td><label for="cscCode">CSC Code</label></td>
+      <td>
+        <input type="number" id="cscCode" name="cscCode" formControlName="csc_code">
+        <div *ngIf="form.get('csc_code')?.invalid && form.get('csc_code')?.touched" class="error-message">
+          <div *ngIf="form.get('csc_code')?.hasError('required')">CSC code is required.</div>
+          <div *ngIf="form.get('csc_code')?.hasError('pattern') && form.get('csc_code')?.value?.length !== 3">CSC code must be exactly 3 numbers.</div>
+        </div>
+      </td>
+    </tr>
 
-<!-- Add a button that calls the onSubmit method when clicked with margin -->
-<button type="submit" class="custom-button" style="margin-top: 20px;">Submit</button>
+    <!-- cardholder name field -->
+    <tr>
+      <td><label for="cardholder_name">Cardholder Name</label></td>
+      <td>
+        <input type="text" id="cardholder_name" name="cardholderName" formControlName="cardholder_name">
+        <div *ngIf="form.get('cardholder_name')?.invalid && form.get('cardholder_name')?.touched" class="error-message">
+          <div *ngIf="form.get('cardholder_name')?.hasError('required')">Cardholder name is required.</div>
+        </div>
+      </td>
+    </tr>
 
+    <!-- Expiration date month field -->
+    <tr>
+      <td><label for="expirationDateMonth">Expiration Date (Month)</label></td>
+      <td>
+        <input type="number" id="expirationDateMonth" name="expirationDateMonth" formControlName="expiration_date_month">
+        <div *ngIf="form.get('expiration_date_month')?.invalid && form.get('expiration_date_month')?.touched" class="error-message">
+          <div *ngIf="form.get('expiration_date_month')?.hasError('required')">Expiration month is required.</div>
+          <div *ngIf="form.get('expiration_date_month')?.hasError('pattern')">Expiration month must contain only numbers.</div>
+          <div *ngIf="form.get('expiration_date_month')?.hasError('min') || form.get('expiration_date_month')?.hasError('max')">Expiration month must be in the range 1-12.</div>
+        </div>
+      </td>
+    </tr>
+
+    <!-- Expiration date year field -->
+    <tr>
+      <td><label for="expirationDateYear">Expiration Date (Year)</label></td>
+      <td>
+        <input type="number" id="expirationDateYear" name="expirationDateYear" formControlName="expiration_date_year">
+        <div *ngIf="form.get('expiration_date_year')?.invalid && form.get('expiration_date_year')?.touched" class="error-message">
+          <div *ngIf="form.get('expiration_date_year')?.hasError('required')">Expiration year is required.</div>
+          <!-- You can add more validations and messages for the year field if needed -->
+        </div>
+      </td>
+    </tr>
+
+    <!-- Issuer field -->
+    <tr>
+      <td><label for="issuer">Issuer</label></td>
+      <td>
+        <input type="text" id="issuer" name="issuer" formControlName="issuer">
+        <div *ngIf="form.get('issuer')?.invalid && form.get('issuer')?.touched" class="error-message">
+          <div *ngIf="form.get('issuer')?.hasError('required')">Issuer is required.</div>
+        </div>
+      </td>
+    </tr>
+  </table>
+
+  <!-- Add a button that calls the onSubmit method when clicked with margin -->
+  <div class="submit-button-container">
+    <button type="submit" class="custom-button">Submit</button>
+  </div>
+</form>

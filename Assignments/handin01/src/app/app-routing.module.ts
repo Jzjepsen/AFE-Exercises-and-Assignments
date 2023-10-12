@@ -11,8 +11,10 @@ const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
   { path: 'add-credit-card', component: AddCreditCardComponent },
-  { path: 'transactions', component: TransactionsOverviewComponent },
-  { path: 'card-details/:id', component: CreditCardDetailsComponent },
+  {
+    path: 'transactions',
+    loadChildren: () => import('./transactions/transactions-overview.module').then(m => m.TransactionsModule)
+  },  { path: 'card-details/:id', component: CreditCardDetailsComponent },
 ];
 
 
