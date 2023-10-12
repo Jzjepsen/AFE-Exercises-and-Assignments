@@ -4,17 +4,22 @@
   <div class="transaction-list">
     <div>
       <th>Filter by credit card number: </th>
-      <input [(ngModel)]="filter" (ngModelChange)="applyFilter()" type="number" placeholder="Filter by card number">
+      <input [(ngModel)]="filterInput" (ngModelChange)="applyFilter()" type="number"
+        placeholder="Filter by card number">
+      <select [(ngModel)]="filterSelect" (ngModelChange)="applyFilter()" (change)="resetFilter($event)">
+        <option>Select a card number</option>
+        <option *ngFor="let cardNumber of creditCardNumbers" [value]="cardNumber">{{cardNumber}}</option>
+      </select>
     </div>
     <h2>Transaction List</h2>
     <table class="table">
-      <app-transaction-list 
-      [transactions]="transactions"
-      [filter]="filter">
-    </app-transaction-list>
+      <app-transaction-list [transactions]="filteredTransactions" [filter]="filter">
+      </app-transaction-list>
     </table>
   </div>
+
   <div class="add-transaction-form">
     <app-transaction-add (addTransaction)="handleNewTransaction($event)"></app-transaction-add>
   </div>
+
 </div>

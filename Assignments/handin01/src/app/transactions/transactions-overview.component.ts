@@ -38,18 +38,25 @@ export class TransactionsOverviewComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private transactionsService: TransactionsService
-  ) {  }
+  ) { }
+
+  creditCardNumbers: number[] = [];
 
   ngOnInit(): void {
     this.transactionsService.getTransactions().subscribe(
       (transactions) => {
         this.transactions = transactions;
+        // Populate filteredTransactions with all transactions initially  
+        this.filteredTransactions = [...this.transactions];
+        // Create a unique list of credit card numbers  
+        this.creditCardNumbers = [...new Set(transactions.map(transaction => transaction.card_number))];
       },
       (error) => {
         console.error('Error fetching transactions:', error);
       }
     );
   }
+
 
   handleNewTransaction(newTransaction: Transaction): void {
     // Logic to handle the new transaction
@@ -58,18 +65,36 @@ export class TransactionsOverviewComponent implements OnInit {
     this.filteredTransactions = [...this.transactions];
     // ... send to server or any other logic you need.
   }
-  
+
+
+  filterInput?: number;
+  filterSelect?: number;
 
   applyFilter(): void {
-    console.log('Filter Value:', this.filter);  // Add this line  
-
-    if (this.filter !== undefined && this.filter !== null) {
-      this.filteredTransactions = this.transactions.filter(transaction =>
-        transaction.card_number?.toString() === this.filter?.toString()
-      );
-      console.log("Filtered Transactions:", this.filteredTransactions)  // Change this line  
+    if (this.filterInput !== undefined) {
+      this.filter = this.filterInput;
+      console.log("Filter: ", this.filter)
+    } else if (this.filterSelect !== undefined) {
+      this.filter = this.filterSelect;
+      console.log("Filter: ", this.filter)
     } else {
-      this.filteredTransactions = this.transactions;
+      this.filter = undefined;
+      console.log("Filter: ", this.filter)
+    }
+
+    this.filteredTransactions = this.filter !== undefined
+      ? this.transactions.filter(transaction => transaction.card_number === this.filter)
+      : this.transactions;
+  }
+
+  resetFilter(event: Event): void {
+    const selectElement = event.target as HTMLSelectElement;
+    if (selectElement.selectedIndex === 0) {
+      this.filterSelect = undefined;
+      this.applyFilter();
     }
   }
+
+
+
 }

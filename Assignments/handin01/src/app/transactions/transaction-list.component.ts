@@ -20,7 +20,10 @@ export class TransactionListComponent implements OnInit {
 
   constructor(private transactionsService: TransactionsService, public dialog: MatDialog) { }
 
+  uniqueCardNumbers: number[] = [];
+
   ngOnInit(): void {
+    this.uniqueCardNumbers = [...new Set(this.transactions.map(item => item.card_number))];
     this.applyFilter();
   }
 
@@ -28,15 +31,16 @@ export class TransactionListComponent implements OnInit {
     this.applyFilter();
   }
 
-  applyFilter(): void {
-    if (this.filter !== undefined && this.filter !== null) {
+  applyFilter(filterValue?: string): void {
+    if (filterValue) {
       this.filteredTransactions = this.transactions.filter(transaction =>
-        transaction.card_number?.toString() === this.filter?.toString()
+        transaction.card_number?.toString() === filterValue
       );
     } else {
       this.filteredTransactions = this.transactions;
     }
   }
+
 
   onDelete(transaction: Transaction): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
