@@ -31,7 +31,6 @@ export default function HomePage() {
 
       if (typeof decodedToken !== 'string' && decodedToken && 'Role' in decodedToken) {
         Role = decodedToken.Role; // get role from decoded token      
-        console.log(Role);
       } else {
         throw new Error('Invalid token');
       }
