@@ -104,4 +104,60 @@ a {
   html {
     color-scheme: dark;
   }
+}/* styles/globals.css */
+
+body, html {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Arial', sans-serif; /* A modern font */
+}
+
+.formContainer {
+  max-width: 500px;
+  margin: auto;
+  padding: 40px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background: rgb(161, 41, 139);
+  border-radius: 8px;
+}
+
+.tableForm {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tableForm td,
+.tableForm th {
+  padding: 10px; /* Padding inside table cells */
+}
+
+.inputField,
+.selectField {
+  width: 100%; /* Full width inside table cell */
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background: rgb(126, 34, 187);
+}
+
+.submitButton {
+  width: 100%;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background: #007bff;
+  color: white;
+  cursor: pointer;
+}
+
+.submitButton:disabled {
+  background: #ccc;
+}
+
+/* Optional: Add some spacing between rows for better readability */
+.tableForm tr:not(:last-child) {
+  border-bottom: 1px solid #eaeaea;
 }

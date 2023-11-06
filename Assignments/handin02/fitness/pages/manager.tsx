@@ -1,46 +1,156 @@
-import { useState } from 'react';
-import axios from 'axios';
+import { useState, FormEvent } from 'react';
+import Router from 'next/router';
 
-const Manager = () => {
-    const [firstName, setFirstName] = useState("");
-    const [lastName, setLastName] = useState("");
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [personalTrainerId, setPersonalTrainerId] = useState(0);
-    const [accountType, setAccountType] = useState("");
+const CreateUser = () => {
+  const [user, setUser] = useState({
+    Email: '',
+    FirstName: '',
+    LastName: '',
+    AccountType: '',
+    Password: '',
+  });
+  const [isLoading, setIsLoading] = useState(false);
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            const response = await axios.post('https://afefitness2023.azurewebsites.net/api/Users', {
-                userId: 0,
-                firstName,
-                lastName,
-                email,
-                password,
-                personalTrainerId,
-                accountType,
-            });
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setUser((prevUser) => ({
+      ...prevUser,
+      [name]: value,
+    }));
+  };
 
-            console.log(response.data);
-        } catch (error) {
-            console.error(error);
-        }
-    };
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsLoading(true); // Start loading
 
-    return (
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100vh' }}>
-            <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column' }}>
-                <input type="text" value={firstName} onChange={e => setFirstName(e.target.value)} placeholder="First Name" style={{ marginBottom: '10px' }} />
-                <input type="text" value={lastName} onChange={e => setLastName(e.target.value)} placeholder="Last Name" style={{ marginBottom: '10px' }} />
-                <input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="Email" style={{ marginBottom: '10px' }} />
-                <input type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="Password" style={{ marginBottom: '10px' }} />
-                <input type="number" value={personalTrainerId} onChange={e => setPersonalTrainerId(parseInt(e.target.value))} placeholder="Personal Trainer ID" style={{ marginBottom: '10px' }} />
-                <input type="text" value={accountType} onChange={e => setAccountType(e.target.value)} placeholder="Account Type" style={{ marginBottom: '10px' }} />
-                <button type="submit" style={{ padding: '10px', backgroundColor: '#4CAF50', color: 'white', border: 'none', cursor: 'pointer' }}>Create User</button>
-            </form>
-        </div>
-    );
+    try {
+      const response = await fetch('https://afefitness2023.azurewebsites.net/api/Users', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(user),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      // Handle success, redirect to a profile page or show a success message
+      Router.push('/profile');
+    } catch (error) {
+      // Handle errors, show error message to the user
+      console.error('There was an error creating the user:', error);
+    } finally {
+      setIsLoading(false); // End loading
+    }
+  };
+
+  return (
+    <div className="formContainer">
+      <form onSubmit={handleSubmit}>
+        <table className="tableForm">
+          <tbody>
+            <tr>
+              <td>
+                <label htmlFor="Email">Email</label>
+              </td>
+              <td>
+                <input
+                  type="email"
+                  id="Email"
+                  name="Email"
+                  value={user.Email}
+                  onChange={handleChange}
+                  placeholder="Email"
+                  required
+                  className="inputField"
+                />
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label htmlFor="FirstName">First Name</label>
+              </td>
+              <td>
+                <input
+                  type="text"
+                  id="FirstName"
+                  name="FirstName"
+                  value={user.FirstName}
+                  onChange={handleChange}
+                  placeholder="First Name"
+                  required
+                  className="inputField"
+                />
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label htmlFor="LastName">Last Name</label>
+              </td>
+              <td>
+                <input
+                  type="text"
+                  id="LastName"
+                  name="LastName"
+                  value={user.LastName}
+                  onChange={handleChange}
+                  placeholder="Last Name"
+                  required
+                  className="inputField"
+                />
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label htmlFor="AccountType">Account Type</label>
+              </td>
+              <td>
+                <select
+                  id="AccountType"
+                  name="AccountType"
+                  value={user.AccountType}
+                  onChange={handleChange}
+                  required
+                  className="selectField"
+                >
+                  <option value="">Select Account Type</option>
+                  <option value="Client">Client</option>
+                  <option value="PersonalTrainer">Personal Trainer</option>
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label htmlFor="Password">Password</label>
+              </td>
+              <td>
+                <input
+                  type="password"
+                  id="Password"
+                  name="Password"
+                  value={user.Password}
+                  onChange={handleChange}
+                  placeholder="Password"
+                  required
+                  className="inputField"
+                />
+              </td>
+            </tr>
+            <tr>
+              <td >
+                <button type="submit" disabled={isLoading} className="submitButton">
+                  {isLoading ? 'Creating...' : 'Create User'}
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </form>
+    </div>
+  );
+  
 };
 
-export default Manager;  
+export default CreateUser;
