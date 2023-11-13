@@ -1,17 +1,17 @@
 import { useState, FormEvent } from 'react';
 import Router from 'next/router';
 
-const CreateUser = () => {
+const TrainerNewUsers = () => {
     const [user, setUser] = useState({
         Email: '',
         FirstName: '',
         LastName: '',
-        AccountType: '',
+        AccountType: 'Client',
         Password: '',
     });
     const [isLoading, setIsLoading] = useState(false);
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setUser((prevUser) => ({
             ...prevUser,
@@ -21,16 +21,16 @@ const CreateUser = () => {
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        setIsLoading(true); // Start loading  
+        setIsLoading(true); // Start loading    
 
-        const token = localStorage.getItem('token'); // get the token from local storage  
+        const token = localStorage.getItem('token'); // get the token from local storage    
 
         try {
             const response = await fetch('https://afefitness2023.azurewebsites.net/api/Users', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`, // include the token in the Authorization header  
+                    'Authorization': `Bearer ${token}`, // include the token in the Authorization header    
                 },
                 body: JSON.stringify(user),
             });
@@ -39,13 +39,13 @@ const CreateUser = () => {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
 
-            // Handle success, redirect to a profile page or show a success message  
+            // Handle success, redirect to a profile page or show a success message    
             Router.push('/profile');
         } catch (error) {
-            // Handle errors, show error message to the user  
+            // Handle errors, show error message to the user    
             console.error('There was an error creating the user:', error);
         } finally {
-            setIsLoading(false); // End loading  
+            setIsLoading(false); // End loading    
         }
     };
 
@@ -107,24 +107,6 @@ const CreateUser = () => {
                         </tr>
                         <tr>
                             <td>
-                                <label htmlFor="AccountType">Account Type</label>
-                            </td>
-                            <td>
-                                <select
-                                    id="AccountType"
-                                    name="AccountType"
-                                    value={user.AccountType}
-                                    onChange={handleChange}
-                                    required
-                                    className="selectField"
-                                >
-                                    <option value="">Select Account Type</option>
-                                    <option value="PersonalTrainer">Personal Trainer</option>
-                                </select>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
                                 <label htmlFor="Password">Password</label>
                             </td>
                             <td>
@@ -152,7 +134,6 @@ const CreateUser = () => {
             </form>
         </div>
     );
-
 };
 
-export default CreateUser;
+export default TrainerNewUsers;  
