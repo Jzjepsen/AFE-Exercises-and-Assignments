@@ -12,7 +12,7 @@ const TrainerPage: React.FC = () => {
     return (
         <div>
             <div style={{ marginBottom: '20px' }}>
-                <Button variant="contained" color="primary" onClick={() => handleButtonClick("/trainerNewUser")}>
+                <Button variant="contained" color="primary" onClick={() => handleButtonClick("/trainerNewUsers")}>
                     Create User (Client)
                 </Button>
             </div>

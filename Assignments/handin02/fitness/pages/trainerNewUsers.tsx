@@ -3,11 +3,11 @@ import Router from 'next/router';
 
 const TrainerNewUsers = () => {
     const [user, setUser] = useState({
-        Email: '',
-        FirstName: '',
-        LastName: '',
-        AccountType: 'Client',
-        Password: '',
+        email: '',
+        firstName: '',
+        lastName: '',
+        accountType: 'Client',
+        password: '',
     });
     const [isLoading, setIsLoading] = useState(false);
 
@@ -40,7 +40,7 @@ const TrainerNewUsers = () => {
             }
 
             // Handle success, redirect to a profile page or show a success message    
-            Router.push('/profile');
+            //Router.push('/profile');
         } catch (error) {
             // Handle errors, show error message to the user    
             console.error('There was an error creating the user:', error);
@@ -51,6 +51,7 @@ const TrainerNewUsers = () => {
 
     return (
         <div className="formContainer">
+            <header>Create new Client</header>
             <form onSubmit={handleSubmit}>
                 <table className="tableForm">
                     <tbody>
@@ -63,7 +64,7 @@ const TrainerNewUsers = () => {
                                     type="email"
                                     id="Email"
                                     name="Email"
-                                    value={user.Email}
+                                    value={user.email}
                                     onChange={handleChange}
                                     placeholder="Email"
                                     required
@@ -80,7 +81,7 @@ const TrainerNewUsers = () => {
                                     type="text"
                                     id="FirstName"
                                     name="FirstName"
-                                    value={user.FirstName}
+                                    value={user.firstName}
                                     onChange={handleChange}
                                     placeholder="First Name"
                                     required
@@ -97,7 +98,7 @@ const TrainerNewUsers = () => {
                                     type="text"
                                     id="LastName"
                                     name="LastName"
-                                    value={user.LastName}
+                                    value={user.lastName}
                                     onChange={handleChange}
                                     placeholder="Last Name"
                                     required
@@ -114,7 +115,7 @@ const TrainerNewUsers = () => {
                                     type="password"
                                     id="Password"
                                     name="Password"
-                                    value={user.Password}
+                                    value={user.password}
                                     onChange={handleChange}
                                     placeholder="Password"
                                     required

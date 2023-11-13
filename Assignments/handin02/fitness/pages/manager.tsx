@@ -51,6 +51,8 @@ const CreateUser = () => {
 
     return (
         <div className="formContainer">
+                    <header>Create new Personal Trainer</header>
+
             <form onSubmit={handleSubmit}>
                 <table className="tableForm">
                     <tbody>
