@@ -3,13 +3,14 @@ import Router from 'next/router';
 
 const TrainerNewUsers = () => {
     const [user, setUser] = useState({
-        email: '',
-        firstName: '',
-        lastName: '',
-        accountType: 'Client',
-        password: '',
+        Email: '',
+        FirstName: '',
+        LastName: '',
+        AccountType: 'Client',
+        Password: '',
     });
     const [isLoading, setIsLoading] = useState(false);
+    const [success, setSuccess] = useState(false); //  success message  
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -39,8 +40,16 @@ const TrainerNewUsers = () => {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
 
-            // Handle success, redirect to a profile page or show a success message    
-            //Router.push('/profile');
+            setSuccess(true); // Display success message  
+            setUser({ // Clear the form  
+                Email: '',
+                FirstName: '',
+                LastName: '',
+                AccountType: '',
+                Password: '',
+            });
+            setTimeout(() => setSuccess(false), 5000); // Hide success message after 5 seconds     
+           // Router.push('/profile');
         } catch (error) {
             // Handle errors, show error message to the user    
             console.error('There was an error creating the user:', error);
@@ -64,7 +73,7 @@ const TrainerNewUsers = () => {
                                     type="email"
                                     id="Email"
                                     name="Email"
-                                    value={user.email}
+                                    value={user.Email}
                                     onChange={handleChange}
                                     placeholder="Email"
                                     required
@@ -81,7 +90,7 @@ const TrainerNewUsers = () => {
                                     type="text"
                                     id="FirstName"
                                     name="FirstName"
-                                    value={user.firstName}
+                                    value={user.FirstName}
                                     onChange={handleChange}
                                     placeholder="First Name"
                                     required
@@ -98,7 +107,7 @@ const TrainerNewUsers = () => {
                                     type="text"
                                     id="LastName"
                                     name="LastName"
-                                    value={user.lastName}
+                                    value={user.LastName}
                                     onChange={handleChange}
                                     placeholder="Last Name"
                                     required
@@ -115,7 +124,7 @@ const TrainerNewUsers = () => {
                                     type="password"
                                     id="Password"
                                     name="Password"
-                                    value={user.password}
+                                    value={user.Password}
                                     onChange={handleChange}
                                     placeholder="Password"
                                     required
@@ -133,6 +142,7 @@ const TrainerNewUsers = () => {
                     </tbody>
                 </table>
             </form>
+            {success && <p>User successfully created!</p>}
         </div>
     );
 };

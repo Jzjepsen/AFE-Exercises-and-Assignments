@@ -25,12 +25,15 @@ export default function HomePage() {
 
       const { jwt } = response.data; // get jwt from response      
       localStorage.setItem('token', jwt); // store jwt in local storage      
-
+      
       const decodedToken = decode(jwt); // use decode instead of verify  
       let Role: string;
-
+      let UserId : string;
+      
       if (typeof decodedToken !== 'string' && decodedToken && 'Role' in decodedToken) {
         Role = decodedToken.Role; // get role from decoded token      
+        UserId = decodedToken.UserId;
+        localStorage.setItem('id',UserId);
       } else {
         throw new Error('Invalid token');
       }
