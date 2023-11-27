@@ -42,7 +42,7 @@ export default function HomePage() {
         case 'PersonalTrainer':
           router.push('/trainer'); // redirect to personal trainer page      
           break;
-        case 'Models.Enums.Role.Client':
+        case 'Client':
           router.push('/client'); // redirect to client page      
           break;
         default:

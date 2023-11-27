@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, CircularProgress } from '@material-ui/core';
+import { Box, Typography, Select, MenuItem, makeStyles } from '@material-ui/core';
+import { CircularProgress } from '@material-ui/core';
 import axios from 'axios';
+import { Table, TableBody, TableCell, TableHead, TableRow } from '@material-ui/core';
 
 interface Exercise {
   exerciseId: number;
@@ -23,22 +24,38 @@ interface WorkoutProgram {
   clientId: number;
 }
 
+const ExerciseRow: React.FC<{ exercise: Exercise, index: number }> = ({ exercise, index }) => {
+  return (
+    <TableRow key={index}>
+      <TableCell style={{ color: 'white' }}>{exercise.exerciseId}</TableCell>
+      <TableCell style={{ color: 'white' }}>{exercise.name}</TableCell>
+      <TableCell style={{ color: 'white' }}>{exercise.description}</TableCell>
+      <TableCell style={{ color: 'white' }}>{exercise.sets}</TableCell>
+      <TableCell style={{ color: 'white' }}>{exercise.repetitions}</TableCell>
+      <TableCell style={{ color: 'white' }}>{exercise.time}</TableCell>
+    </TableRow>
+  );
+};
+
+// Styles  
 const useStyles = makeStyles({
+  select: {
+    backgroundColor: 'lightblue',
+    width: '200px',
+    marginBottom: '2rem',
+  },
   table: {
-    minWidth: 650,
-  },
-  progress: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: '100vh',
-  },
+    maxWidth: '80%',
+    margin: 'auto',
+  }
 });
 
 const WorkoutProgramsListPage: React.FC = () => {
-  const classes = useStyles();
   const [workoutPrograms, setWorkoutPrograms] = useState<WorkoutProgram[]>([]);
+  const [selectedProgram, setSelectedProgram] = useState<WorkoutProgram | null>(null);
   const [loading, setLoading] = useState(true);
+
+  const classes = useStyles();
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -56,67 +73,60 @@ const WorkoutProgramsListPage: React.FC = () => {
       });
   }, []);
 
+  const handleSelectChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+    const programId = event.target.value as number;
+    const program = workoutPrograms.find(p => p.workoutProgramId === programId);
+    setSelectedProgram(program || null);
+  };
+
   if (loading) {
     return (
-      <div className={classes.progress}>
+      <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
         <CircularProgress />
-      </div>
+      </Box>
     );
   }
 
   return (
-    <TableContainer component={Paper}>
-      <Table className={classes.table} aria-label="simple table">
-        <TableHead>
-          <TableRow>
-            <TableCell>ID</TableCell>
-            <TableCell>Name</TableCell>
-            <TableCell>Description</TableCell>
-            <TableCell>Personal Trainer ID</TableCell>
-            <TableCell>Client ID</TableCell>
-            <TableCell>Exercises</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {workoutPrograms.map((program) => (
-            <TableRow key={program.workoutProgramId}>
-              <TableCell>{program.workoutProgramId}</TableCell>
-              <TableCell>{program.name}</TableCell>
-              <TableCell>{program.description}</TableCell>
-              <TableCell>{program.personalTrainerId}</TableCell>
-              <TableCell>{program.clientId}</TableCell>
-              <TableCell>
-                <Table>
-                  <TableHead>
-                    <TableRow>
-                      <TableCell>ID</TableCell>
-                      <TableCell>Name</TableCell>
-                      <TableCell>Description</TableCell>
-                      <TableCell>Sets</TableCell>
-                      <TableCell>Repetitions</TableCell>
-                      <TableCell>Time</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {program.exercises.map((exercise) => (
-                      <TableRow key={exercise.exerciseId}>
-                        <TableCell>{exercise.exerciseId}</TableCell>
-                        <TableCell>{exercise.name}</TableCell>
-                        <TableCell>{exercise.description}</TableCell>
-                        <TableCell>{exercise.sets}</TableCell>
-                        <TableCell>{exercise.repetitions}</TableCell>
-                        <TableCell>{exercise.time}</TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </TableCell>
-            </TableRow>
+    <div>
+      <Box display="flex" justifyContent="center" alignItems="center" marginTop="2rem">
+        <Select
+          className={classes.select}
+          value={selectedProgram?.workoutProgramId || ''}
+          onChange={handleSelectChange}
+          displayEmpty
+        >
+          <MenuItem value="" disabled>
+            Please pick a program
+          </MenuItem>
+          {workoutPrograms.map(program => (
+            <MenuItem value={program.workoutProgramId} key={program.workoutProgramId}>
+              {program.name}
+            </MenuItem>
           ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+        </Select>
+      </Box>
+      {selectedProgram && (
+        <Table className={classes.table}>
+          <TableHead>
+            <TableRow>
+              <TableCell style={{ color: 'white' }}>ID</TableCell>
+              <TableCell style={{ color: 'white' }}>Name</TableCell>
+              <TableCell style={{ color: 'white' }}>Description</TableCell>
+              <TableCell style={{ color: 'white' }}>Sets</TableCell>
+              <TableCell style={{ color: 'white' }}>Repetitions</TableCell>
+              <TableCell style={{ color: 'white' }}>Time</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {selectedProgram.exercises.map((exercise, index) => (
+              <ExerciseRow key={index} exercise={exercise} index={index} />
+            ))}
+          </TableBody>
+        </Table>
+      )}
+    </div>
   );
 }
 
-export default WorkoutProgramsListPage;    
+export default WorkoutProgramsListPage;  

@@ -10,6 +10,7 @@ const CreateUser = () => {
         Password: '',
     });
     const [isLoading, setIsLoading] = useState(false);
+    const [success, setSuccess] = useState(false); // New state for success message  
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
@@ -21,16 +22,16 @@ const CreateUser = () => {
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        setIsLoading(true); // Start loading  
+        setIsLoading(true); // Start loading    
 
-        const token = localStorage.getItem('token'); // get the token from local storage  
+        const token = localStorage.getItem('token'); // get the token from local storage    
 
         try {
             const response = await fetch('https://afefitness2023.azurewebsites.net/api/Users', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`, // include the token in the Authorization header  
+                    'Authorization': `Bearer ${token}`, // include the token in the Authorization header    
                 },
                 body: JSON.stringify(user),
             });
@@ -39,19 +40,26 @@ const CreateUser = () => {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
 
-            // Handle success, redirect to a profile page or show a success message  
-            Router.push('/profile');
+            setSuccess(true); // Display success message  
+            setUser({ // Clear the form  
+                Email: '',
+                FirstName: '',
+                LastName: '',
+                AccountType: '',
+                Password: '',
+            });
+            setTimeout(() => setSuccess(false), 5000); // Hide success message after 5 seconds  
         } catch (error) {
-            // Handle errors, show error message to the user  
+            // Handle errors, show error message to the user    
             console.error('There was an error creating the user:', error);
         } finally {
-            setIsLoading(false); // End loading  
+            setIsLoading(false); // End loading    
         }
     };
 
     return (
         <div className="formContainer">
-                    <header>Create new Personal Trainer</header>
+            <header>Create new Personal Trainer</header>
 
             <form onSubmit={handleSubmit}>
                 <table className="tableForm">
@@ -152,6 +160,7 @@ const CreateUser = () => {
                     </tbody>
                 </table>
             </form>
+            {success && <p>User successfully created!</p>}
         </div>
     );
 
