@@ -120,7 +120,7 @@ const CreateWorkoutProgram = () => {
 
         try {
             let workoutProgramToSubmit: any = { ...workoutProgram };
-            // Specify the type of the exercise object    
+            // Specify the type of the exercise object      
             workoutProgramToSubmit.exercises = workoutProgramToSubmit.exercises.map(({ exerciseId, ...exercise }: Exercise) => exercise);
 
             const response = await fetch('https://afefitness2023.azurewebsites.net/api/WorkoutPrograms', {
@@ -152,6 +152,9 @@ const CreateWorkoutProgram = () => {
                 personalTrainerId: 0,
                 clientId: 0,
             });
+
+            // Added user feedback here.  
+            alert('Workout program was successfully created!');
 
         } catch (error) {
             console.error('There was an error creating the workout program:', error);
@@ -195,4 +198,4 @@ const CreateWorkoutProgram = () => {
     );
 };
 
-export default CreateWorkoutProgram;    
+export default CreateWorkoutProgram;  

@@ -25,19 +25,19 @@ const TrainerPage: React.FC = () => {
 
             <div style={{ marginBottom: '20px' }}>
                 <Button variant="contained" color="primary" onClick={() => handleButtonClick("/addExercise")}>
+                    Add an exercise
+                </Button>
+            </div>
+
+            <div style={{ marginBottom: '20px' }}>
+                <Button variant="contained" color="primary" onClick={() => handleButtonClick("/addExerciseToProgram")}>
                     Add Exercise to Workout Program
                 </Button>
             </div>
 
             <div style={{ marginBottom: '20px' }}>
                 <Button variant="contained" color="primary" onClick={() => handleButtonClick("/workoutProgramsList")}>
-                    See List of Workout Programs
-                </Button>
-            </div>
-
-            <div style={{ marginBottom: '20px' }}>
-                <Button variant="contained" color="primary" onClick={() => handleButtonClick("/specificWorkoutProgram")}>
-                    See Specific Workout Program
+                    See Workout Programs
                 </Button>
             </div>
 
