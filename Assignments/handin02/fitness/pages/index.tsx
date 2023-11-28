@@ -2,7 +2,8 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { decode } from 'jsonwebtoken'; // import decode from jsonwebtoken    
-import { useRouter } from 'next/router'; // import useRouter from next/router      
+import { useRouter } from 'next/router'; // import useRouter from next/router     
+import Cookies from 'js-cookie';
 
 export default function HomePage() {
   const [email, setEmail] = useState("");
@@ -25,15 +26,17 @@ export default function HomePage() {
 
       const { jwt } = response.data; // get jwt from response      
       localStorage.setItem('token', jwt); // store jwt in local storage      
-      
+      console.log('jwt:', jwt);
+      Cookies.set('token', jwt);
+
       const decodedToken = decode(jwt); // use decode instead of verify  
       let Role: string;
-      let UserId : string;
-      
+      let UserId: string;
+
       if (typeof decodedToken !== 'string' && decodedToken && 'Role' in decodedToken) {
         Role = decodedToken.Role; // get role from decoded token      
         UserId = decodedToken.UserId;
-        localStorage.setItem('id',UserId);
+        localStorage.setItem('id', UserId);
       } else {
         throw new Error('Invalid token');
       }

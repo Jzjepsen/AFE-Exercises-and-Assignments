@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, CircularProgress } from '@material-ui/core';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@material-ui/core';
 import axios from 'axios';
+import { GetServerSideProps } from 'next';
 
 interface User {
     userId: number;
@@ -24,34 +25,8 @@ const useStyles = makeStyles({
     },
 });
 
-const UsersListPage: React.FC = () => {
+const UsersListPage: React.FC<{ users: User[] }> = ({ users }) => {
     const classes = useStyles();
-    const [users, setUsers] = useState<User[]>([]);
-    const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-        const token = localStorage.getItem('token');
-        axios.get<User[]>('https://afefitness2023.azurewebsites.net/api/Users', {
-            headers: {
-                'Authorization': `Bearer ${token}`,
-            },
-        })
-            .then(response => {
-                setUsers(response.data);
-                setLoading(false);
-            })
-            .catch(error => {
-                console.error('There was an error!', error);
-            });
-    }, []);
-
-    if (loading) {
-        return (
-            <div className={classes.progress}>
-                <CircularProgress />
-            </div>
-        );
-    }
 
     return (
         <TableContainer component={Paper}>
@@ -83,4 +58,31 @@ const UsersListPage: React.FC = () => {
     );
 }
 
-export default UsersListPage;  
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+    const { req } = context;
+    const token = req.cookies.token;
+    console.log('token FROM SERVER SIDE', token);
+
+    if (!token) {
+        return {
+            props: { users: [] },
+        };
+    }
+
+    const response = await axios.get<User[]>('https://afefitness2023.azurewebsites.net/api/Users', {
+        headers: {
+            'Authorization': `Bearer ${token}`,
+        },
+    });
+
+    return {
+        props: {
+            users: response.data,
+        },
+    };
+}
+
+
+
+export default UsersListPage;    

@@ -1,9 +1,17 @@
 import React from 'react';
 import { Button } from '@material-ui/core';
 import { useRouter } from 'next/router';
+import Cookies from 'js-cookie';
+
+
 
 const TrainerPage: React.FC = () => {
     const router = useRouter();
+
+    const jwt = localStorage.getItem('token');
+    if (jwt) {
+        Cookies.set('token', jwt);
+    }
 
     const handleButtonClick = (path: string) => {
         router.push(path);
