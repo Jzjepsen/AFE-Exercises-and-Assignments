@@ -21,7 +21,6 @@ interface ProgramDetailsType {
     personalTrainerId: number;
     clientId: number;
 }
-
 const ProgramDetails = () => {
     const router = useRouter();
     const { workoutProgramId } = router.query;
@@ -31,16 +30,28 @@ const ProgramDetails = () => {
     const [programDetails, setProgramDetails] = useState<ProgramDetailsType | null>(null);
 
     useEffect(() => {
-        if (!workoutProgramId) return; // Ensure workoutProgramId is available
-        const apiUrl = `https://afefitness2023.azurewebsites.net/api/WorkoutPrograms/${workoutProgramId}`;
+        const token = localStorage.getItem('token');
 
-        axios.get(apiUrl)
+        if (!workoutProgramId) return; 
+
+        try {
+            const apiUrl = `https://afefitness2023.azurewebsites.net/api/WorkoutPrograms/${workoutProgramId}`;
+
+            axios.get(apiUrl, {
+                headers: { 
+                    'accept': 'text/plain',
+                    'Authorization': `Bearer ${token}`
+                }
+            })
             .then(response => {
                 setProgramDetails(response.data);
             })
             .catch(error => {
                 console.error('Error fetching program details:', error);
             });
+        } catch (error) {
+            console.error('Error with request:', error);
+        }
     }, [workoutProgramId]);
 
     return (
