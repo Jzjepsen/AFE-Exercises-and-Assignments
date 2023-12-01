@@ -70,7 +70,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         };
     }
 
-    const response = await axios.get<User[]>('https://afefitness2023.azurewebsites.net/api/Users', {
+    const response = await axios.get<User[]>('https://afefitness2023.azurewebsites.net/api/Users/Clients', {
         headers: {
             'Authorization': `Bearer ${token}`,
         },
