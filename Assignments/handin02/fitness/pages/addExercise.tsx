@@ -1,4 +1,4 @@
-import { useState, FormEvent } from 'react';
+import React, { useState } from 'react';
 
 interface Exercise {
     exerciseId: number;
@@ -19,7 +19,7 @@ const AddExercise = () => {
         time: ''
     });
 
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const handleInputChange = (e: any) => {
         const { name, value } = e.target;
         setExercise(prevExercise => ({
             ...prevExercise,
@@ -27,11 +27,13 @@ const AddExercise = () => {
         }));
     };
 
-    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: any) => {
         e.preventDefault();
 
-        const token = localStorage.getItem('token');
-
+        let token;
+        if (typeof window !== 'undefined') {
+            token = localStorage.getItem('token');
+        }
         try {
             const response = await fetch('https://afefitness2023.azurewebsites.net/api/Exercises', {
                 method: 'POST',
@@ -72,4 +74,4 @@ const AddExercise = () => {
     );
 };
 
-export default AddExercise;  
+export default AddExercise;    

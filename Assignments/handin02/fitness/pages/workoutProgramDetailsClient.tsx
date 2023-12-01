@@ -26,31 +26,33 @@ const ProgramDetails = () => {
     const { workoutProgramId } = router.query;
 
     console.log('Received workoutProgramId:', workoutProgramId);
-    
+
     const [programDetails, setProgramDetails] = useState<ProgramDetailsType | null>(null);
 
     useEffect(() => {
-        const token = localStorage.getItem('token');
+        if (typeof window !== "undefined") {
+            const token = localStorage.getItem('token');
 
-        if (!workoutProgramId) return; 
+            if (!workoutProgramId) return;
 
-        try {
-            const apiUrl = `https://afefitness2023.azurewebsites.net/api/WorkoutPrograms/${workoutProgramId}`;
+            try {
+                const apiUrl = `https://afefitness2023.azurewebsites.net/api/WorkoutPrograms/${workoutProgramId}`;
 
-            axios.get(apiUrl, {
-                headers: { 
-                    'accept': 'text/plain',
-                    'Authorization': `Bearer ${token}`
-                }
-            })
-            .then(response => {
-                setProgramDetails(response.data);
-            })
-            .catch(error => {
-                console.error('Error fetching program details:', error);
-            });
-        } catch (error) {
-            console.error('Error with request:', error);
+                axios.get(apiUrl, {
+                    headers: {
+                        'accept': 'text/plain',
+                        'Authorization': `Bearer ${token}`
+                    }
+                })
+                    .then(response => {
+                        setProgramDetails(response.data);
+                    })
+                    .catch(error => {
+                        console.error('Error fetching program details:', error);
+                    });
+            } catch (error) {
+                console.error('Error with request:', error);
+            }
         }
     }, [workoutProgramId]);
 
@@ -65,7 +67,7 @@ const ProgramDetails = () => {
                     <ul>
                         {programDetails.exercises.map(exercise => (
                             <li key={exercise.exerciseId}>
-                                <strong>{exercise.name}</strong>: {exercise.description} 
+                                <strong>{exercise.name}</strong>: {exercise.description}
                                 (Sets: {exercise.sets}, Repetitions: {exercise.repetitions})
                             </li>
                         ))}

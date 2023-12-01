@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from '@material-ui/core';
+import { Button } from '@mui/material';
 import { useRouter } from 'next/router';
 import Cookies from 'js-cookie';
 
@@ -8,9 +8,11 @@ import Cookies from 'js-cookie';
 const TrainerPage: React.FC = () => {
     const router = useRouter();
 
-    const jwt = localStorage.getItem('token');
-    if (jwt) {
-        Cookies.set('token', jwt);
+    if (typeof window !== "undefined") {
+        const jwt = localStorage.getItem('token');
+        if (jwt) {
+            Cookies.set('token', jwt);
+        }
     }
 
     const handleButtonClick = (path: string) => {

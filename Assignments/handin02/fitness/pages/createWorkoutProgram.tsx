@@ -1,4 +1,5 @@
-import { useState, useEffect, FormEvent } from 'react';
+
+import React, { useState, useEffect, FormEvent } from 'react';
 
 interface Exercise {
     exerciseId: number;
@@ -39,41 +40,45 @@ const CreateWorkoutProgram = () => {
 
     useEffect(() => {
         const fetchExercises = async () => {
-            const token = localStorage.getItem('token');
-            const response = await fetch('https://afefitness2023.azurewebsites.net/api/Exercises', {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`,
-                },
-            });
+            if (typeof window !== 'undefined') {
+                const token = localStorage.getItem('token');
+                const response = await fetch('https://afefitness2023.azurewebsites.net/api/Exercises', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`,
+                    },
+                });
 
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const exercises = await response.json();
+                console.log(exercises);
+                setExercises(exercises);
             }
-
-            const exercises = await response.json();
-            console.log(exercises);
-            setExercises(exercises);
         };
 
         const fetchUsers = async () => {
-            const token = localStorage.getItem('token');
-            const response = await fetch('https://afefitness2023.azurewebsites.net/api/Users', {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`,
-                },
-            });
+            if (typeof window !== 'undefined') {
+                const token = localStorage.getItem('token');
+                const response = await fetch('https://afefitness2023.azurewebsites.net/api/Users', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`,
+                    },
+                });
 
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const users = await response.json();
+                console.log(users);
+                setUsers(users);
             }
-
-            const users = await response.json();
-            console.log(users);
-            setUsers(users);
         };
 
         fetchExercises();
@@ -116,50 +121,52 @@ const CreateWorkoutProgram = () => {
         e.preventDefault();
         setIsLoading(true);
 
-        const token = localStorage.getItem('token');
+        if (typeof window !== 'undefined') {
+            const token = localStorage.getItem('token');
 
-        try {
-            let workoutProgramToSubmit: any = { ...workoutProgram };
-            // Specify the type of the exercise object      
-            workoutProgramToSubmit.exercises = workoutProgramToSubmit.exercises.map(({ exerciseId, ...exercise }: Exercise) => exercise);
+            try {
+                let workoutProgramToSubmit: any = { ...workoutProgram };
+                // Specify the type of the exercise object      
+                workoutProgramToSubmit.exercises = workoutProgramToSubmit.exercises.map(({ exerciseId, ...exercise }: Exercise) => exercise);
 
-            const response = await fetch('https://afefitness2023.azurewebsites.net/api/WorkoutPrograms', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`,
-                },
-                body: JSON.stringify(workoutProgramToSubmit),
-            });
-
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-
-            setWorkoutProgram({
-                name: '',
-                description: '',
-                exercises: [
-                    {
-                        exerciseId: 0,
-                        name: '',
-                        description: '',
-                        sets: 0,
-                        repetitions: 0,
-                        time: '',
+                const response = await fetch('https://afefitness2023.azurewebsites.net/api/WorkoutPrograms', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`,
                     },
-                ],
-                personalTrainerId: 0,
-                clientId: 0,
-            });
+                    body: JSON.stringify(workoutProgramToSubmit),
+                });
 
-            // Added user feedback here.  
-            alert('Workout program was successfully created!');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
 
-        } catch (error) {
-            console.error('There was an error creating the workout program:', error);
-        } finally {
-            setIsLoading(false);
+                setWorkoutProgram({
+                    name: '',
+                    description: '',
+                    exercises: [
+                        {
+                            exerciseId: 0,
+                            name: '',
+                            description: '',
+                            sets: 0,
+                            repetitions: 0,
+                            time: '',
+                        },
+                    ],
+                    personalTrainerId: 0,
+                    clientId: 0,
+                });
+
+                // Added user feedback here.  
+                alert('Workout program was successfully created!');
+
+            } catch (error: any) {
+                console.error('There was an error creating the workout program:', error);
+            } finally {
+                setIsLoading(false);
+            }
         }
     };
 

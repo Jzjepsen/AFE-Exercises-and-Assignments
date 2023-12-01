@@ -1,7 +1,7 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import axios from 'axios';
-import { Box, Typography, Card, CardContent, Button } from '@material-ui/core';
+import { Box, Typography, Card, CardContent, Button } from '@mui/material';
 
 interface Exercise {
     exerciseId: number;
@@ -33,64 +33,83 @@ const ClientPage = () => {
     const router = useRouter();
     const [workoutPrograms, setWorkoutPrograms] = useState<WorkoutProgram[]>([]);
     const [user, setUser] = useState<User | null>(null);
+    const [storedUserId, setStoredUserId] = useState<string | null>(null);
+    const [token, setToken] = useState<string | null>(null);
 
-
-    const fetchUserData = useCallback(async () => {
-        const storedUserId = localStorage.getItem('id');
-        const token = localStorage.getItem('token');
-        const url = `https://afefitness2023.azurewebsites.net/api/Users/${storedUserId}`;
-        try {
-            const response = await axios.get(url, {
-                headers: { 'Authorization': `Bearer ${token}` }
-            });
-            setUser(response.data);
-        } catch (error) {
-            console.error('Error fetching user data:', error);
-        }
-    }, []);
-
-
-    // Using useCallback to memoize the function, preventing unnecessary re-creations
-    const fetchWorkoutPrograms = useCallback(async () => {
-        const storedUserId = localStorage.getItem('id');
-        const token = localStorage.getItem('token');
-
-        if (storedUserId && token) {
-            try {
-                const response = await axios.get(`https://afefitness2023.azurewebsites.net/api/WorkoutPrograms/client/${storedUserId}`, {
-                    headers: { 'Authorization': `Bearer ${token}` }
-                });
-                console.log("Fetched workout programs:", response.data);
-
-                setWorkoutPrograms(response.data);
-            } catch (error) {
-                console.error('Error fetching workout programs:', error);
-            }
-        }
-    }, []);
-    
     useEffect(() => {
+        if (typeof window !== 'undefined') {
+            setStoredUserId(localStorage.getItem('id'));
+            setToken(localStorage.getItem('token'));
+        }
+    }, []);
+
+    useEffect(() => {
+        const fetchUserData = async () => {
+            if (storedUserId && token) {
+                const url = `https://afefitness2023.azurewebsites.net/api/Users/${storedUserId}`;
+                try {
+                    const response = await axios.get(url, {
+                        headers: { 'Authorization': `Bearer ${token}` }
+                    });
+                    setUser(response.data);
+                } catch (error) {
+                    console.error('Error fetching user data:', error);
+                }
+            }
+        };
+
+        const fetchWorkoutPrograms = async () => {
+            if (storedUserId && token) {
+                try {
+                    const response = await axios.get(`https://afefitness2023.azurewebsites.net/api/WorkoutPrograms/client/${storedUserId}`, {
+                        headers: { 'Authorization': `Bearer ${token}` }
+                    });
+                    console.log("Fetched workout programs:", response.data);
+                    setWorkoutPrograms(response.data);
+                } catch (error) {
+                    console.error('Error fetching workout programs:', error);
+                }
+            }
+        };
+
         fetchUserData();
         fetchWorkoutPrograms();
-    }, [fetchUserData, fetchWorkoutPrograms]);
+    }, [storedUserId, token]);
 
     const handleProgramClick = (workoutProgramId: number) => {
         console.log('Navigating to details page with workoutProgramId:', workoutProgramId);
-        // Navigate to the workoutProgramDetailsClient page with workoutProgramId as a query parameter'
         router.push(`/workoutProgramDetailsClient?workoutProgramId=${workoutProgramId}`);
-        
     };
+
+    const [refreshWorkoutPrograms, setRefreshWorkoutPrograms] = useState(false);
+
+    useEffect(() => {
+        const fetchWorkoutPrograms = async () => {
+            if (storedUserId && token) {
+                try {
+                    const response = await axios.get(`https://afefitness2023.azurewebsites.net/api/WorkoutPrograms/client/${storedUserId}`, {
+                        headers: { 'Authorization': `Bearer ${token}` }
+                    });
+                    console.log("Fetched workout programs:", response.data);
+                    setWorkoutPrograms(response.data);
+                } catch (error) {
+                    console.error('Error fetching workout programs:', error);
+                }
+            }
+        };
+
+        fetchWorkoutPrograms();
+    }, [storedUserId, token, refreshWorkoutPrograms]);
 
     return (
         <Box>
-        {user && (
-            <>
-                <Typography variant="h4">{user.firstName} {user.lastName}</Typography>
-                <Typography>Email: {user.email}</Typography>
-                {/* Display other user information here */}
-            </>
-        )}
-        <Button variant="contained" color="primary" onClick={fetchWorkoutPrograms}>
+            {user && (
+                <>
+                    <Typography variant="h4">{user.firstName} {user.lastName}</Typography>
+                    <Typography>Email: {user.email}</Typography>
+                </>
+            )}
+            <Button variant="contained" color="primary" onClick={() => setRefreshWorkoutPrograms(prev => !prev)}>
                 Refresh Workout Programs
             </Button>
 
@@ -100,7 +119,6 @@ const ClientPage = () => {
                         <CardContent>
                             <Typography variant="h5">{program.name}</Typography>
                             <Typography color="textSecondary">{program.description}</Typography>
-                            {/* Add more details here */}
                         </CardContent>
                     </Card>
                 ))
@@ -111,4 +129,4 @@ const ClientPage = () => {
     );
 }
 
-export default ClientPage;
+export default ClientPage;  

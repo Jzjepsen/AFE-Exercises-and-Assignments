@@ -1,4 +1,4 @@
-import { useState, FormEvent } from 'react';
+import React, { useState, useEffect, FormEvent } from 'react';
 import Router from 'next/router';
 
 const CreateUser = () => {
@@ -22,40 +22,43 @@ const CreateUser = () => {
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        setIsLoading(true); // Start loading    
+        setIsLoading(true); // Start loading      
 
-        const token = localStorage.getItem('token'); // get the token from local storage    
+        if (typeof window !== 'undefined') {
+            const token = localStorage.getItem('token'); // get the token from local storage      
 
-        try {
-            const response = await fetch('https://afefitness2023.azurewebsites.net/api/Users', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`, // include the token in the Authorization header    
-                },
-                body: JSON.stringify(user),
-            });
+            try {
+                const response = await fetch('https://afefitness2023.azurewebsites.net/api/Users', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`, // include the token in the Authorization header      
+                    },
+                    body: JSON.stringify(user),
+                });
 
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                setSuccess(true); // Display success message    
+                setUser({ // Clear the form    
+                    Email: '',
+                    FirstName: '',
+                    LastName: '',
+                    AccountType: '',
+                    Password: '',
+                });
+                setTimeout(() => setSuccess(false), 5000); // Hide success message after 5 seconds    
+            } catch (error) {
+                // Handle errors, show error message to the user      
+                console.error('There was an error creating the user:', error);
+            } finally {
+                setIsLoading(false); // End loading      
             }
-
-            setSuccess(true); // Display success message  
-            setUser({ // Clear the form  
-                Email: '',
-                FirstName: '',
-                LastName: '',
-                AccountType: '',
-                Password: '',
-            });
-            setTimeout(() => setSuccess(false), 5000); // Hide success message after 5 seconds  
-        } catch (error) {
-            // Handle errors, show error message to the user    
-            console.error('There was an error creating the user:', error);
-        } finally {
-            setIsLoading(false); // End loading    
         }
     };
+
 
     return (
         <div className="formContainer">

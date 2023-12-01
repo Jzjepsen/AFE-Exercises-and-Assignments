@@ -1,4 +1,4 @@
-import { useState, useEffect, ChangeEvent, FormEvent } from 'react';
+import React, { useState, useEffect } from 'react';
 
 interface Exercise {
     exerciseId: number;
@@ -33,7 +33,10 @@ const AddExerciseToProgram = () => {
 
     useEffect(() => {
         const fetchPrograms = async () => {
-            const token = localStorage.getItem('token');
+            let token;
+            if (typeof window !== 'undefined') {
+                token = localStorage.getItem('token');
+            }
             const response = await fetch('https://afefitness2023.azurewebsites.net/api/WorkoutPrograms', {
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -67,7 +70,7 @@ const AddExerciseToProgram = () => {
         console.log("Selected Program2: ", selectedProgram);
     }, [selectedProgram]);
 
-    const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const handleInputChange = (e: any) => {
         const { name, value } = e.target;
         setExercise(prevExercise => ({
             ...prevExercise,
@@ -75,13 +78,15 @@ const AddExerciseToProgram = () => {
         }));
     };
 
-    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: any) => {
         e.preventDefault();
 
         if (selectedProgram) {
-            // Create a new exercise first    
-            const token = localStorage.getItem('token');
-            const url = `https://afefitness2023.azurewebsites.net/api/Exercises/Program/${selectedProgram.workoutProgramId}`; // use the selected program's ID in the URL    
+            let token;
+            if (typeof window !== 'undefined') {
+                token = localStorage.getItem('token');
+            }
+            const url = `https://afefitness2023.azurewebsites.net/api/Exercises/Program/${selectedProgram.workoutProgramId}`;
             let response = await fetch(url, {
                 method: 'POST',
                 headers: {
@@ -90,7 +95,7 @@ const AddExerciseToProgram = () => {
                 },
                 body: JSON.stringify({
                     ...exercise,
-                    personalTrainerId: 1, // set your personal trainer ID    
+                    personalTrainerId: 1,
                 }),
             });
 
@@ -100,10 +105,9 @@ const AddExerciseToProgram = () => {
 
             const newExercise = await response.json();
 
-            // Then update the workout program with the new exercise  
             const updatedProgram = {
                 ...selectedProgram,
-                exercises: [...selectedProgram.exercises, newExercise] // use the newExercise returned from the server  
+                exercises: [...selectedProgram.exercises, newExercise]
             };
 
             setSelectedProgram(updatedProgram);
@@ -121,12 +125,11 @@ const AddExerciseToProgram = () => {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
 
-            if (response.status !== 204) { // status 204 means 'No Content'  
+            if (response.status !== 204) {
                 const data = await response.json();
                 console.log(data);
             }
 
-            // Add this line to give feedback to user.  
             alert(`Exercise was added to workout ${selectedProgram.name}`);
         }
 

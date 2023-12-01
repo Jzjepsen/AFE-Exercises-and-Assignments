@@ -1,8 +1,7 @@
-// pages/index.js          
 import React, { useState } from "react";
 import axios from "axios";
-import { decode } from 'jsonwebtoken'; // import decode from jsonwebtoken    
-import { useRouter } from 'next/router'; // import useRouter from next/router     
+import { decode } from 'jsonwebtoken';
+import { useRouter } from 'next/router';
 import Cookies from 'js-cookie';
 
 export default function HomePage() {
@@ -10,9 +9,9 @@ export default function HomePage() {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const router = useRouter(); // instantiate router      
+  const router = useRouter();
 
-  const handleSubmit = async (e: { preventDefault: () => void; }) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
@@ -24,32 +23,39 @@ export default function HomePage() {
         { headers: { 'Content-Type': 'application/json' } }
       );
 
-      const { jwt } = response.data; // get jwt from response      
-      localStorage.setItem('token', jwt); // store jwt in local storage      
+      const { jwt } = response.data;
+
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('token', jwt);
+      }
+
       console.log('jwt:', jwt);
       Cookies.set('token', jwt);
 
-      const decodedToken = decode(jwt); // use decode instead of verify  
-      let Role: string;
-      let UserId: string;
+      const decodedToken = decode(jwt);
+      let Role: any;
+      let UserId: any;
 
       if (typeof decodedToken !== 'string' && decodedToken && 'Role' in decodedToken) {
-        Role = decodedToken.Role; // get role from decoded token      
+        Role = decodedToken.Role;
         UserId = decodedToken.UserId;
-        localStorage.setItem('id', UserId);
+
+        if (typeof window !== 'undefined') {
+          localStorage.setItem('id', UserId);
+        }
       } else {
         throw new Error('Invalid token');
       }
 
       switch (Role) {
         case 'Manager':
-          router.push('/manager'); // redirect to manager page      
+          router.push('/manager');
           break;
         case 'PersonalTrainer':
-          router.push('/trainer'); // redirect to personal trainer page      
+          router.push('/trainer');
           break;
         case 'Client':
-          router.push('/client'); // redirect to client page      
+          router.push('/client');
           break;
         default:
           throw new Error('Invalid role');
@@ -115,4 +121,4 @@ export default function HomePage() {
       {error && <p style={{ color: 'red', marginTop: 20 }}>{error}</p>}
     </div>
   );
-}  
+}    
