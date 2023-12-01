@@ -79,7 +79,7 @@ const WorkoutProgramsListPage: React.FC = () => {
   }
 
   return (
-    <div>
+    <div className="formContainer">
       <Box display="flex" justifyContent="center" alignItems="center" marginTop="2rem">
         <Select
           sx={{
