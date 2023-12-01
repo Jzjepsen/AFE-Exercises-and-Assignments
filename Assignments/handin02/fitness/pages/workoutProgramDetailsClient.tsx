@@ -55,27 +55,29 @@ const ProgramDetails = () => {
     }, [workoutProgramId]);
 
     return (
-        <div>
-            {programDetails ? (
-                <div>
-                    <h1>{programDetails.name}</h1>
-                    <p>{programDetails.description}</p>
-                    {/* Display other program details here */}
-                    <h2>Exercises</h2>
-                    <ul>
-                        {programDetails.exercises.map(exercise => (
-                            <li key={exercise.exerciseId}>
-                                <strong>{exercise.name}</strong>: {exercise.description} 
-                                (Sets: {exercise.sets}, Repetitions: {exercise.repetitions})
-                            </li>
-                        ))}
-                    </ul>
-                </div>
-            ) : (
-                <p>Loading program details...</p>
-            )}
+        <div style={{ maxWidth: '600px', margin: '0 auto', padding: '20px' }}>
+            <form>
+                {programDetails ? (
+                    <div>
+                        <h1 style={{ fontSize: '24px', marginBottom: '10px' }}>{programDetails.name}</h1>
+                        <p style={{ fontSize: '16px', marginBottom: '20px' }}>{programDetails.description}</p>
+                        <h2 style={{ fontSize: '20px', marginBottom: '10px' }}>Exercises</h2>
+                        <ul style={{ listStyleType: 'none', padding: '0' }}>
+                            {programDetails.exercises.map(exercise => (
+                                <li key={exercise.exerciseId} style={{ marginBottom: '10px' }}>
+                                    <strong>{exercise.name}</strong>: {exercise.description} 
+                                    (Sets: {exercise.sets}, Repetitions: {exercise.repetitions})
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                ) : (
+                    <p>Loading program details...</p>
+                )}
+            </form>
         </div>
     );
 }
+
 
 export default ProgramDetails;

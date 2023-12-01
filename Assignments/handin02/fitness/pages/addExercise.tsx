@@ -61,6 +61,9 @@ const AddExercise = () => {
     };
 
     return (
+        <div className="formContainer">
+            <header>Add exercise</header>
+
         <form onSubmit={handleSubmit}>
             <input type="text" name="name" value={exercise.name} onChange={handleInputChange} placeholder="Exercise Name" required />
             <textarea name="description" value={exercise.description} onChange={handleInputChange} placeholder="Exercise Description" required />
@@ -69,6 +72,7 @@ const AddExercise = () => {
             <input type="text" name="time" value={exercise.time} onChange={handleInputChange} placeholder="Time" required />
             <button type="submit">Add Exercise</button>
         </form>
+        </div>
     );
 };
 

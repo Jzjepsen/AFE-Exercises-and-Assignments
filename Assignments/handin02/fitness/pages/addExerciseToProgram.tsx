@@ -144,7 +144,9 @@ const AddExerciseToProgram = () => {
 
 
     return (
-        <div>
+        <div className="formContainer" >
+            <header>Add exercise to workout program</header>
+
             <select onChange={(e) => handleProgramSelection(Number(e.target.value))}>
                 <option value="">Select a program</option>
                 {workoutPrograms.map(program => (

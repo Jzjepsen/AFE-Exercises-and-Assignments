@@ -68,9 +68,9 @@ export default function HomePage() {
       alignItems: 'center',
       height: '100vh',
       flexDirection: 'column',
-      backgroundColor: '#f2f2f2'
+      backgroundColor: 'white' 
     }}>
-      <h1 style={{ marginBottom: 50, fontFamily: 'Arial', fontWeight: 'bold', color: 'black' }}>Fitness App</h1>
+      <h1 style={{ marginBottom: 50, fontFamily: 'Arial', fontWeight: 'bold', color: 'blue' }}>Fitness App</h1>
 
       <form onSubmit={handleSubmit} style={{
         display: 'flex',
