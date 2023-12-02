@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Typography, Select, MenuItem, makeStyles } from '@material-ui/core';
-import { CircularProgress } from '@material-ui/core';
+import { Box, Select, MenuItem } from '@mui/material';
+import { CircularProgress } from '@mui/material';
 import axios from 'axios';
-import { Table, TableBody, TableCell, TableHead, TableRow } from '@material-ui/core';
+import { Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
+import { SelectChangeEvent } from '@mui/material';
+
 
 interface Exercise {
   exerciseId: number;
@@ -37,44 +39,33 @@ const ExerciseRow: React.FC<{ exercise: Exercise, index: number }> = ({ exercise
   );
 };
 
-// Styles  
-const useStyles = makeStyles({
-  select: {
-    backgroundColor: 'lightblue',
-    width: '200px',
-    marginBottom: '2rem',
-  },
-  table: {
-    maxWidth: '80%',
-    margin: 'auto',
-  }
-});
-
 const WorkoutProgramsListPage: React.FC = () => {
   const [workoutPrograms, setWorkoutPrograms] = useState<WorkoutProgram[]>([]);
   const [selectedProgram, setSelectedProgram] = useState<WorkoutProgram | null>(null);
   const [loading, setLoading] = useState(true);
 
-  const classes = useStyles();
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    axios.get<WorkoutProgram[]>('https://afefitness2023.azurewebsites.net/api/WorkoutPrograms', {
-      headers: {
-        'Authorization': `Bearer ${token}`,
-      },
-    })
-      .then(response => {
-        setWorkoutPrograms(response.data);
-        setLoading(false);
+    // Check if code is running on the client-side  
+    if (typeof window !== "undefined") {
+      const token = localStorage.getItem('token');
+      axios.get<WorkoutProgram[]>('https://afefitness2023.azurewebsites.net/api/WorkoutPrograms', {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
       })
-      .catch(error => {
-        console.error('There was an error!', error);
-      });
+        .then(response => {
+          setWorkoutPrograms(response.data);
+          setLoading(false);
+        })
+        .catch(error => {
+          console.error('There was an error!', error);
+        });
+    }
   }, []);
 
-  const handleSelectChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-    const programId = event.target.value as number;
+  const handleSelectChange = (event: SelectChangeEvent<number>) => {
+    const programId = event.target.value;
     const program = workoutPrograms.find(p => p.workoutProgramId === programId);
     setSelectedProgram(program || null);
   };
@@ -91,7 +82,11 @@ const WorkoutProgramsListPage: React.FC = () => {
     <div className="formContainer">
       <Box display="flex" justifyContent="center" alignItems="center" marginTop="2rem">
         <Select
-          className={classes.select}
+          sx={{
+            backgroundColor: 'lightblue',
+            width: '200px',
+            marginBottom: '2rem',
+          }}
           value={selectedProgram?.workoutProgramId || ''}
           onChange={handleSelectChange}
           displayEmpty
@@ -107,7 +102,12 @@ const WorkoutProgramsListPage: React.FC = () => {
         </Select>
       </Box>
       {selectedProgram && (
-        <Table className={classes.table}>
+        <Table
+          sx={{
+            maxWidth: '80%',
+            margin: 'auto',
+          }}
+        >
           <TableHead>
             <TableRow>
               <TableCell style={{ color: 'white' }}>ID</TableCell>
